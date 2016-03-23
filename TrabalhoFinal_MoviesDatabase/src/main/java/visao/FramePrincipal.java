@@ -1,7 +1,6 @@
 package visao;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -34,15 +33,14 @@ public class FramePrincipal extends JFrame {
 		JMenu mnCadastrar = new JMenu("Cadastrar");
 		menuBar.add(mnCadastrar);
 		
-		JMenuItem mntmCliente = new JMenuItem("Cliente");
-		mntmCliente.addActionListener(new ActionListener() {
+		JMenuItem mntmLivroCadastrar = new JMenuItem("Livro");
+		mntmLivroCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DialogCliente dialog = new DialogCliente(frame);
-				// panel.add(dialog);
+				DialogCadastrar dialog = new DialogCadastrar(frame);
 				dialog.setVisible(true);
 			}
 		});
-		mnCadastrar.add(mntmCliente);
+		mnCadastrar.add(mntmLivroCadastrar);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Sair");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
@@ -50,6 +48,20 @@ public class FramePrincipal extends JFrame {
 				dispose();
 			}
 		});
+		
+		JMenu mnBuscar = new JMenu("Buscar");
+		menuBar.add(mnBuscar);
+		
+		JMenuItem mntmLivroBuscar = new JMenuItem("Livro");
+		mntmLivroBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				DialogBuscar dialog = new DialogBuscar(frame);
+				dialog.setVisible(true);
+			}
+		});
+		mnBuscar.add(mntmLivroBuscar);
+		
 		menuBar.add(mntmNewMenuItem);
 	}
 }

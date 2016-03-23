@@ -1,10 +1,10 @@
 package dao.impl;
 
 import modelo.Lance;
-import dao.LanceDAO;
+import dao.LivroDAO;
 
 public abstract class LanceDAOImpl 
-	extends JPADaoGenerico<Lance, Long> implements LanceDAO
+	extends JPADaoGenerico<Lance, Long> implements LivroDAO
 {
 	public LanceDAOImpl() 
 	{	super(Lance.class);		

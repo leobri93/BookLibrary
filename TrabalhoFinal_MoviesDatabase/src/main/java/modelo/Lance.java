@@ -32,7 +32,7 @@ import util.Util;
 			@NamedQuery
 			(	name = "Lance.recuperaUmLanceComProduto",
 				query = "select l from Lance l left outer join fetch l.produto where l.id = ?1"
-			)
+			)//retorna todos os lances com ou sem produtos(o q nao faz muito sentido, pq todos os lances sao relacionados a um produto).
 		})
 
 /* ==>  Falta acrescentar a busca Lance.recuperaUmLanceComProduto */
@@ -112,8 +112,8 @@ public class Lance
 
 	// ********* Métodos para Associações *********
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="PRODUTO_ID")
+	@ManyToOne(fetch=FetchType.LAZY)//mapeia q há uma associação entre produto e lances.
+	@JoinColumn(name="PRODUTO_ID")//na tabela lances vai ter uma coluna produto_id, q vai apontar para a PK de produto.
 	public Produto getProduto()
 	{	return produto;
 	}

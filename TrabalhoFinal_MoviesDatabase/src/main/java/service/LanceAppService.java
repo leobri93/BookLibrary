@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import dao.LanceDAO;
-import dao.ProdutoDAO;
+import dao.LivroDAO;
+import dao.AutorDAO;
 import excecao.DataDeLanceInvalidaException;
 import excecao.LanceNaoEncontradoException;
 import excecao.ObjetoNaoEncontradoException;
@@ -19,14 +19,14 @@ import util.Util;
 
 public class LanceAppService
 {	
-	private ProdutoDAO produtoDAO = null;
-	private LanceDAO lanceDAO = null;
+	private AutorDAO produtoDAO = null;
+	private LivroDAO lanceDAO = null;
 	
-	public void setProdutoDAO(ProdutoDAO produtoDAO)
+	public void setProdutoDAO(AutorDAO produtoDAO)
 	{	this.produtoDAO = produtoDAO;
 	}
 
-	public void setLanceDAO(LanceDAO lanceDAO)
+	public void setLanceDAO(LivroDAO lanceDAO)
 	{	this.lanceDAO = lanceDAO;
 	}
 

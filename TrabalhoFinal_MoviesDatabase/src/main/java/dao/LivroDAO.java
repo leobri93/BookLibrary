@@ -8,7 +8,7 @@ import anotacao.RecuperaLista;
 import anotacao.RecuperaUltimoOuPrimeiro;
 import excecao.ObjetoNaoEncontradoException;
 
-public interface LanceDAO extends DaoGenerico<Lance, Long>
+public interface LivroDAO extends DaoGenerico<Lance, Long>
 {	
 	@RecuperaLista
 	List<Lance> recuperaListaDeLances();

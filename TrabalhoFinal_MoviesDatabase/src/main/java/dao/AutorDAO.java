@@ -9,7 +9,7 @@ import anotacao.RecuperaLista;
 import anotacao.RecuperaObjeto;
 import excecao.ObjetoNaoEncontradoException;
 
-public interface ProdutoDAO extends DaoGenerico<Produto, Long>
+public interface AutorDAO extends DaoGenerico<Produto, Long>
 {   
 	/* ****** Métodos Genéricos ******* */
 

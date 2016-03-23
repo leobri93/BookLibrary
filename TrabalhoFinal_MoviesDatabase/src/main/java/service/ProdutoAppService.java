@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import dao.ProdutoDAO;
+import dao.AutorDAO;
 import excecao.ObjetoNaoEncontradoException;
 import excecao.ProdutoNaoEncontradoException;
 import modelo.Produto;
 
 public class ProdutoAppService
 {	
-	private ProdutoDAO produtoDAO = null;
+	private AutorDAO produtoDAO = null;
 
 	@Autowired
-	public void setProdutoDAO(ProdutoDAO produtoDAO)
+	public void setProdutoDAO(AutorDAO produtoDAO)
 	{	this.produtoDAO = produtoDAO;
 	}
 	

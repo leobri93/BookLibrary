@@ -22,12 +22,10 @@ public class DialogCadastrar extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField nomeTextField;
-	private JButton btnCopiar;
-	private JButton btnApagar;
-	private JTextArea obsTextArea;
-	private final ButtonGroup sexoButtonGroup = new ButtonGroup();
-	private JTextField textField;
-	private JTextField textField_1;
+	private JButton btnSalvar;
+	private JButton btnLimpar;
+	private JTextField sinopseTextField;
+	private JTextField idAutorTextField;
 	
 	public DialogCadastrar(JFrame frame) {
 		
@@ -42,8 +40,9 @@ public class DialogCadastrar extends JDialog {
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
+		// ---------- Cadastro de livros ------------ // 
 		JLabel lblNewLabel = new JLabel("Cadastro de Livros");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel.setFont(new Font("Leelawadee UI", Font.BOLD, 13));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(0, 26, 434, 23);
 		panel.add(lblNewLabel);
@@ -52,55 +51,62 @@ public class DialogCadastrar extends JDialog {
 		lblNome.setBounds(38, 95, 46, 14);
 		panel.add(lblNome);
 		
-		JLabel lblSexo = new JLabel("Sinopse:");
-		lblSexo.setBounds(38, 125, 46, 14);
-		panel.add(lblSexo);
+		JLabel lblSinopse = new JLabel("Sinopse:");
+		lblSinopse.setBounds(38, 125, 61, 14);
+		panel.add(lblSinopse);
 		
-		JLabel lblFaixaEtria = new JLabel("Id Autor:");
-		lblFaixaEtria.setBounds(38, 155, 79, 14);
-		panel.add(lblFaixaEtria);
+		JLabel lblIdAutor = new JLabel("Id Autor:");
+		lblIdAutor.setToolTipText("");
+		lblIdAutor.setBounds(38, 155, 79, 14);
+		panel.add(lblIdAutor);
 		
 		nomeTextField = new JTextField();
 		nomeTextField.setBounds(109, 92, 289, 20);
 		panel.add(nomeTextField);
 		nomeTextField.setColumns(10);
 		
-		btnCopiar = new JButton("Copiar");
-		btnCopiar.addActionListener(new ActionListener() {
+		sinopseTextField = new JTextField();
+		sinopseTextField.setBounds(109, 122, 289, 20);
+		panel.add(sinopseTextField);
+		sinopseTextField.setColumns(10);
+		
+		idAutorTextField = new JTextField();
+		idAutorTextField.setToolTipText("Para inserir o Id busque o autor abaixo");
+		idAutorTextField.setBounds(109, 152, 289, 20);
+		panel.add(idAutorTextField);
+		idAutorTextField.setColumns(10);
+		
+		btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				StringBuilder ss;
-				StringBuffer sb = new StringBuffer(300);
-				sb.append("Nome: " + nomeTextField.getText() + '\n');
-		        obsTextArea.append(sb.toString());
-				obsTextArea.append("\n************** FIM **************\n");
 			}
 		});
-		btnCopiar.setBounds(119, 192, 89, 23);
-		panel.add(btnCopiar);
+		btnSalvar.setBounds(119, 192, 89, 23);
+		panel.add(btnSalvar);
 		
-		btnApagar = new JButton("Apagar");
-		btnApagar.addActionListener(new ActionListener() {
+		btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				nomeTextField.setText("");
-				obsTextArea.setText("");
+				
+				nomeTextField   .setText("");
+				sinopseTextField.setText("");
+				idAutorTextField.setText("");
 			}
 		});
-		btnApagar.setBounds(244, 192, 89, 23);
-		panel.add(btnApagar);
+		btnLimpar.setBounds(244, 192, 89, 23);
+		panel.add(btnLimpar);
 		
-		obsTextArea = new JTextArea();
-		obsTextArea.setBounds(38, 284, 360, 150);
-		panel.add(obsTextArea);
+		// ------------ Fim do Cadastro ---------------- //
 		
-		textField = new JTextField();
-		textField.setBounds(109, 122, 289, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		// ------------ Busca de Autor ----------------- //
+		JLabel lblBuscarAutor = new JLabel("Busca Autor");
+		lblBuscarAutor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBuscarAutor.setFont(new Font("Leelawadee UI", Font.BOLD, 13));
+		lblBuscarAutor.setBounds(0, 246, 434, 14);
+		panel.add(lblBuscarAutor);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(109, 152, 289, 20);
-		panel.add(textField_1);
-		textField_1.setColumns(10);
+		
+		
 	}
 }

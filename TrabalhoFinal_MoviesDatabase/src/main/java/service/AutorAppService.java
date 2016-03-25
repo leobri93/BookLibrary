@@ -2,33 +2,35 @@ package service;
 
 import java.util.List;
 
+import modelo.Autor;
+import modelo.Produto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import dao.AutorDAO;
 import excecao.ObjetoNaoEncontradoException;
 import excecao.ProdutoNaoEncontradoException;
-import modelo.Produto;
 
-public class ProdutoAppService
+public class AutorAppService
 {	
-	private AutorDAO produtoDAO = null;
+	private AutorDAO autorDAO = null;
 
 	@Autowired
-	public void setProdutoDAO(AutorDAO produtoDAO)
-	{	this.produtoDAO = produtoDAO;
+	public void setAutorDAO(AutorDAO produtoDAO)
+	{	this.autorDAO = produtoDAO;
 	}
 	
-	public long inclui(Produto umProduto) 
-	{	return produtoDAO.inclui(umProduto).getId();
+	public long inclui(Autor umProduto) 
+	{	return autorDAO.inclui(umProduto).getId();
 	}
 
 	@Transactional
-	public void altera(Produto umProduto)
+	public void altera(Autor umAutor)
 		throws ProdutoNaoEncontradoException
 	{	try
-		{	produtoDAO.getPorIdComLock(umProduto.getId());
-			produtoDAO.altera(umProduto);
+		{	autorDAO.getPorIdComLock(umAutor.getId());
+			autorDAO.altera(umAutor);
 		} 
 		catch(ObjetoNaoEncontradoException e)
 		{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
@@ -36,43 +38,43 @@ public class ProdutoAppService
 	}
 
 	@Transactional
-	public void exclui(Produto umProduto) 
+	public void exclui(Autor umAutor) 
 		throws ProdutoNaoEncontradoException
 	{	try
-		{	Produto produto = produtoDAO.recuperaUmProdutoELances(umProduto.getId());
+		{	Autor autor = autorDAO.recuperaUmAutorELivros(umAutor.getId());
 
 //			if(produto.getLances().size() > 0)
 //			{	throw new ProdutoNaoEncontradoException("Este produto possui lances e não pode ser removido");
 //			}
 
-			produtoDAO.exclui(produto);
+			autorDAO.exclui(autor);
 		} 
 		catch(ObjetoNaoEncontradoException e)
 		{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
 		}
 	}
 
-	public Produto recuperaUmProduto(long numero) 
+	public Autor recuperaUmAutor(long numero) 
 		throws ProdutoNaoEncontradoException
 	{	try
-		{	return produtoDAO.getPorId(numero);
+		{	return autorDAO.getPorId(numero);
 		} 
 		catch(ObjetoNaoEncontradoException e)
 		{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
 		}
 	}
 
-	public Produto recuperaUmProdutoELances(long numero) 
+	public Autor recuperaUmAutorELivros(long numero) 
 		throws ProdutoNaoEncontradoException
 	{	try
-		{	return produtoDAO.recuperaUmProdutoELances(numero);
+		{	return autorDAO.recuperaUmAutorELivros(numero);
 		} 
 		catch(ObjetoNaoEncontradoException e)
 		{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
 		}
 	}
 
-	public List<Produto> recuperaProdutosELances()
-	{	return produtoDAO.recuperaListaDeProdutosELances();
+	public List<Autor> recuperaAutoresELivros()
+	{	return autorDAO.recuperaListaDeAutoresELivros();
 	}
 }

@@ -10,21 +10,21 @@
              http://www.springframework.org/schema/tx
              http://www.springframework.org/schema/tx/spring-tx.xsd">      
 
-	<bean id="produtoAppService" class="service.ProdutoAppService">
-        <property name="produtoDAO" ref="produtoDAOImpl" />
+	<bean id="autorAppService" class="service.AutorAppService">
+        <property name="autorDAO" ref="autorDAOImpl" />
 	</bean>
 
-	<bean id="lanceAppService" class="service.LanceAppService">
-        <property name="produtoDAO" ref="produtoDAOImpl" />
-        <property name="lanceDAO" ref="lanceDAOImpl" />
+	<bean id="livroAppService" class="service.LivroAppService">
+        <property name="autorDAO" ref="autorDAOImpl" />
+        <property name="livroDAO" ref="livroDAOImpl" />
 	</bean>
 
-	<bean id="produtoDAOImpl" class="dao.controle.FabricaDeDao" factory-method="getDao">
-		<constructor-arg value="dao.impl.ProdutoDAOImpl" />
+	<bean id="autorDAOImpl" class="dao.controle.FabricaDeDao" factory-method="getDao">
+		<constructor-arg value="dao.impl.AutorDAOImpl" />
     </bean>
     
-	<bean id="lanceDAOImpl" class="dao.controle.FabricaDeDao" factory-method="getDao">
-		<constructor-arg value="dao.impl.LanceDAOImpl" />
+	<bean id="livroDAOImpl" class="dao.controle.FabricaDeDao" factory-method="getDao">
+		<constructor-arg value="dao.impl.LivroDAOImpl" />
     </bean>
 
 <!--  

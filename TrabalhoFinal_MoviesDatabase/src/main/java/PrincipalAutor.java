@@ -1,38 +1,40 @@
 import java.util.List;
 
+import modelo.Autor;
+import modelo.Lance;
+import modelo.Livro;
+import modelo.Produto;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import service.AutorAppService;
+import util.Util;
 import corejava.Console;
 import excecao.ProdutoNaoEncontradoException;
-import modelo.Lance;
-import modelo.Produto;
-import service.ProdutoAppService;
-import util.Util;
 
-public class PrincipalProduto
+public class PrincipalAutor
 {	public static void main (String[] args) 
 	{	
 		String nome;
-		String descricao;
-		double lanceMinimo;
+		
 		String dataCadastro;
-		Produto umProduto;
+		Autor umAutor;
 
         @SuppressWarnings("resource")
 		ApplicationContext fabrica = new ClassPathXmlApplicationContext("beans-jpa.xml");
 
-		ProdutoAppService produtoAppService = 
-			(ProdutoAppService)fabrica.getBean ("produtoAppService");
+		AutorAppService autorAppService = 
+			(AutorAppService)fabrica.getBean ("autorAppService");
 
 		boolean continua = true;
 		while (continua)
 		{	System.out.println('\n' + "O que você deseja fazer?");
-			System.out.println('\n' + "1. Cadastrar um produto");
-			System.out.println("2. Alterar um produto");
-			System.out.println("3. Remover um produto");
-			System.out.println("4. Listar um produto e seus lances");
-			System.out.println("5. Listar todos os produtos e seus lances");
+			System.out.println('\n' + "1. Cadastrar um autor");
+			System.out.println("2. Alterar um autor");
+			System.out.println("3. Remover um autor");
+			System.out.println("4. Listar um autor e seus livros");
+			System.out.println("5. Listar todos os autores e seus livros");
 			System.out.println("6. Sair");
 						
 			int opcao = Console.readInt('\n' + 
@@ -43,16 +45,13 @@ public class PrincipalProduto
 				{
 					nome = Console.readLine('\n' + 
 						"Informe o nome do produto: ");
-					descricao = Console.readLine(
-						"Informe a descrição do produto: ");
-					lanceMinimo = Console.readDouble(
-						"Informe o valor do lance mínimo: ");
+				
 					dataCadastro = Console.readLine(
 						"Informe a data de cadastramento do produto: ");
 						
-					Produto produto = new Produto(nome, descricao, lanceMinimo, Util.strToCalendar(dataCadastro));
+					Autor autor = new Autor(nome, Util.strToCalendar(dataCadastro));
 
-					long numero = produtoAppService.inclui(produto);
+					long numero = autorAppService.inclui(autor);
 					
 					System.out.println('\n' + "Produto número " + 
 					    numero + " incluído com sucesso!");	
@@ -66,7 +65,7 @@ public class PrincipalProduto
 										
 					try
 					{	
-						umProduto = produtoAppService.recuperaUmProduto(resposta);
+						umAutor = autorAppService.recuperaUmAutor(resposta);
 					}
 					catch(ProdutoNaoEncontradoException e)
 					{	System.out.println('\n' + e.getMessage());
@@ -74,46 +73,27 @@ public class PrincipalProduto
 					}
 										
 					System.out.println('\n' + 
-						"Número = " + umProduto.getId() + 
-						"    Nome = " + umProduto.getNome() +
-						"    Salário = " + umProduto.getDescricao());
+						"Número = " + umAutor.getId() + 
+						"    Nome = " + umAutor.getNome());
 												
 					System.out.println('\n' + "O que você deseja alterar?");
 					System.out.println('\n' + "1. Nome");
-					System.out.println("2. Descrição");
+					
 
 					int opcaoAlteracao = Console.readInt('\n' + 
-											"Digite um número de 1 a 2:");
+											"Digite um número de 1 a 1: :P");
 					
 					switch (opcaoAlteracao)
 					{	case 1:
 							String novoNome = Console.
 										readLine("Digite o novo nome: ");
-							umProduto.setNome(novoNome);
+							umAutor.setNome(novoNome);
 
 							try
-							{	produtoAppService.altera(umProduto);
+							{	autorAppService.altera(umAutor);
 
 								System.out.println('\n' + 
 									"Alteração de nome efetuada com sucesso!");
-							}
-							catch(ProdutoNaoEncontradoException e)
-							{	System.out.println('\n' + e.getMessage());
-							}
-								
-							break;
-					
-						case 2:
-							String novaDescricao = Console.
-									readLine("Digite a nova descrição: ");
-							umProduto.setDescricao(novaDescricao);
-
-							try
-							{	produtoAppService.altera(umProduto);
-
-								System.out.println('\n' + 
-									"Alteração de descrição efetuada " +
-									"com sucesso!");						
 							}
 							catch(ProdutoNaoEncontradoException e)
 							{	System.out.println('\n' + e.getMessage());
@@ -133,8 +113,8 @@ public class PrincipalProduto
 						"Digite o número do produto que você deseja remover: ");
 									
 					try
-					{	umProduto = produtoAppService.
-										recuperaUmProduto(resposta);
+					{	umAutor = autorAppService.
+										recuperaUmAutor(resposta);
 					}
 					catch(ProdutoNaoEncontradoException e)
 					{	System.out.println('\n' + e.getMessage());
@@ -142,18 +122,17 @@ public class PrincipalProduto
 					}
 										
 					System.out.println('\n' + 
-						"Número = " + umProduto.getId() + 
-						"    Nome = " + umProduto.getNome() +
-						"    Descrição = " + umProduto.getDescricao());
+						"Número = " + umAutor.getId() + 
+						"    Nome = " + umAutor.getNome());
 														
 					String resp = Console.readLine('\n' + 
 						"Confirma a remoção do produto?");
 
 					if(resp.equals("s"))
 					{	try
-						{	produtoAppService.exclui (umProduto);
+						{	autorAppService.exclui (umAutor);
 							System.out.println('\n' + 
-								"Produto removido com sucesso!");
+								"Autor removido com sucesso!");
 						}
 						catch(ProdutoNaoEncontradoException e)
 						{	System.out.println('\n' + e.getMessage());
@@ -161,7 +140,7 @@ public class PrincipalProduto
 					}
 					else
 					{	System.out.println('\n' + 
-							"Produto não removido.");
+							"Autor não removido.");
 					}
 					
 					break;
@@ -173,8 +152,8 @@ public class PrincipalProduto
 						"Informe o número do produto: ");
 				
 					try
-					{	umProduto = produtoAppService.
-										recuperaUmProdutoELances(numero);
+					{	umAutor = autorAppService.
+										recuperaUmAutorELivros(numero);
 					}
 					catch(ProdutoNaoEncontradoException e)
 					{	System.out.println('\n' + e.getMessage());
@@ -182,19 +161,17 @@ public class PrincipalProduto
 					}
 									
 					System.out.println('\n' + 
-						"Id = " + umProduto.getId() +
-					    "  Nome = " + umProduto.getNome() +
-					    "  Descrição = " + umProduto.getDescricao() +
-					    "  Lance mínimo = " + umProduto.getLanceMinimo() +
-					    "  Data Cadastro = " + umProduto.getDataCadastroMasc());
+						"Id = " + umAutor.getId() +
+					    "  Nome = " + umAutor.getNome() +
+					    "  Data Cadastro = " + umAutor.getDataCriacaoMasc());
 					
-					List<Lance> lances = umProduto.getLances();
+					List<Livro> livros = umAutor.getLivros();
 					
-					for (Lance lance : lances)
+					for (Livro livro : livros)
 					{	System.out.println(	'\n' + 
-							"      Lance número = "  + lance.getId() + 
-							"  Valor = "  + lance.getValor() +
-							"  Data = "  + lance.getDataCriacaoMasc());
+							"      Livro número = "  + livro.getId() + 
+							"  nome = "  + livro.getNome() +
+							"  sinopse = "  + livro.getSinopse());
 					}	
 										
 					break;
@@ -202,26 +179,24 @@ public class PrincipalProduto
 
 				case 5:
 				{
-					List<Produto> produtos = produtoAppService.recuperaProdutosELances();
+					List<Autor> autores = autorAppService.recuperaAutoresELivros();
 						
-					if (produtos.size() != 0)
+					if (autores.size() != 0)
 					{	System.out.println("");
 
-						for (Produto produto : produtos)
+						for (Autor autor : autores)
 						{	System.out.println('\n' + 
-								"Produto numero = " + produto.getId() + 
-								"  Nome = " + produto.getNome() +
-								"  Descrição = " + produto.getDescricao() +
-								"  Lance mínimo = " + produto.getLanceMinimoMasc() +
-								"  Data Cadastro = " + produto.getDataCadastroMasc());
+								"Autor numero = " + autor.getId() + 
+								"  Nome = " + autor.getNome() +
+								"  Data Cadastro = " + autor.getDataCriacaoMasc());
 
-							List<Lance> lances = produto.getLances();
+							List<Livro> livros = autor.getLivros();
 							
-							for (Lance lance : lances)
+							for (Livro livro : livros)
 							{	System.out.println(	'\n' + 
-								  "      Lance número = "  + lance.getId() + 
-								  "  Valor = " + lance.getValor() +
-								  "  Data = " + lance.getDataCriacaoMasc());
+									"      Livro número = "  + livro.getId() + 
+									"  nome = "  + livro.getNome() +
+									"  sinopse = "  + livro.getSinopse());
 							}	
                     	} 
 					}

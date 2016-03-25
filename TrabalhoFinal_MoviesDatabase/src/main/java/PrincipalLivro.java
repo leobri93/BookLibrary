@@ -1,42 +1,45 @@
 import java.util.List;
 
+import modelo.Autor;
+import modelo.Livro;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import service.AutorAppService;
+import service.LivroAppService;
+import util.Util;
 import corejava.Console;
 import excecao.DataDeLanceInvalidaException;
 import excecao.LanceNaoEncontradoException;
 import excecao.ProdutoNaoEncontradoException;
 import excecao.ValorDeLanceInvalidoException;
-import modelo.Lance;
-import modelo.Produto;
-import service.LanceAppService;
-import service.ProdutoAppService;
-import util.Util;
 
-public class PrincipalLance
+public class PrincipalLivro
 {	public static void main (String[] args) 
 	{	
-		double valor;
+		String sinopse;
 		String dataCriacao;
-
-		Produto umProduto;
-		Lance umLance;
+		String nome;
+		Long numeroExemplares;
+		
+		Autor umAutor;
+		Livro umLivro;
 
         @SuppressWarnings("resource")
 		ApplicationContext fabrica = new ClassPathXmlApplicationContext("beans-jpa.xml");
 
-		ProdutoAppService produtoAppService = 
-			(ProdutoAppService)fabrica.getBean ("produtoAppService");
-		LanceAppService lanceAppService = 
-			(LanceAppService)fabrica.getBean ("lanceAppService");
+		AutorAppService autorAppService = 
+			(AutorAppService)fabrica.getBean ("autorAppService");
+		LivroAppService livroAppService = 
+			(LivroAppService)fabrica.getBean ("livroAppService");
 
 		boolean continua = true;
 		while (continua)
 		{	System.out.println('\n' + "O que você deseja fazer?");
-			System.out.println('\n' + "1. Cadastrar um lance de um produto");
-			System.out.println("2. Remover um lance");
-			System.out.println("3. Recuperar todos os lances");
+			System.out.println('\n' + "1. Cadastrar um livro de um autor");
+			System.out.println("2. Remover um livro");
+			System.out.println("3. Recuperar todos os livros");
 			System.out.println("4. Sair");
 						
 			int opcao = Console.readInt('\n' + 
@@ -45,26 +48,30 @@ public class PrincipalLance
 			switch (opcao)
 			{	case 1:
 				{
-					long idProduto = Console.
-						readInt('\n' + "Informe o número do produto: ");
+					long idAutor = Console.readInt('\n' + "Informe o número do livro: ");
 					
 					try
-					{	umProduto = produtoAppService.recuperaUmProduto(idProduto);
+					{	umAutor = autorAppService.recuperaUmAutor(idAutor);
 					}
 					catch(ProdutoNaoEncontradoException e)
 					{	System.out.println('\n' + e.getMessage());
 						break;
 					}
 					
-					valor = Console.readDouble('\n' + 
-									"Informe o valor do lance: ");
+					nome = Console.readLine('\n' + 
+							"Informe o nome do livro: ");
+					
+					sinopse = Console.readLine('\n' + 
+									"Informe a sinopse do livro: ");
+					
 					dataCriacao = Console.readLine(
-									"Informe a data de emissão do lance: ");
-
-					umLance = new Lance(valor, Util.strToCalendar(dataCriacao), umProduto);
+									"Informe a data de emissão do livro: ");
+					
+					numeroExemplares = (long) 50;    //vou manter fixo, pq sim.
+					umLivro = new Livro(nome, sinopse, numeroExemplares, Util.strToCalendar(dataCriacao), umAutor);
 					
 					try
-					{	lanceAppService.inclui(umLance);	
+					{	livroAppService.inclui(umLivro);	
 
 						System.out.println('\n' + "Lance adicionado com sucesso");						
 					}
@@ -80,31 +87,33 @@ public class PrincipalLance
 
 				case 2:
 				{	int resposta = Console.readInt('\n' + 
-						"Digite o número do lance que você deseja remover: ");
+						"Digite o número do livro que você deseja remover: ");
 									
 					try
-					{	umLance = lanceAppService.recuperaUmLance(resposta);
+					{	umLivro = livroAppService.recuperaUmLivro(resposta);
 					}
 					catch(LanceNaoEncontradoException e)
 					{	System.out.println('\n' + e.getMessage());
 						break;
 					}
 										
-					System.out.println('\n' + 
-						"Número = " + umLance.getId() + 
-						"    Valor = " + umLance.getValor() +
-						"    Data de Emissão = " + umLance.getDataCriacaoMasc());
+					
+					System.out.println(	
+							"Número = " + umLivro.getId() + 
+							"  Nome = " + umLivro.getNome() +
+							"  Sinopse = " + umLivro.getSinopse());
+					
 																						
 					String resp = Console.readLine('\n' + 
 						"Confirma a remoção do lance?");
 
 					if(resp.equals("s"))
 					{	try
-						{	lanceAppService.exclui (umLance);
+						{	livroAppService.exclui (umLivro);
 							System.out.println('\n' + 
 								"Lance removido com sucesso!");
 						}
-						catch(LanceNaoEncontradoException e)
+						catch(Exception e)
 						{	System.out.println(e.getMessage());
 						}
 					}
@@ -117,20 +126,20 @@ public class PrincipalLance
 				}
 
 				case 3:
-				{	List<Lance> arrayLances = lanceAppService.recuperaLances();
+				{	List<Livro> arrayLivros = livroAppService.recuperaLivros();
 									
-					if (arrayLances.size() == 0)
+					if (arrayLivros.size() == 0)
 					{	System.out.println('\n' + 
 							"Nao há lances cadastrados.");
 						break;
 					}
 										
 					System.out.println("");
-					for (Lance lance : arrayLances)
+					for (Livro livro : arrayLivros)
 					{	System.out.println(	
-							"Número = " + lance.getId() + 
-							"  Valor = " + lance.getValor() +
-							"  Data de Emissão = " + lance.getDataCriacaoMasc());
+							"Número = " + livro.getId() + 
+							"  Nome = " + livro.getNome() +
+							"  Sinopse = " + livro.getSinopse());
 					}
 										
 					break;

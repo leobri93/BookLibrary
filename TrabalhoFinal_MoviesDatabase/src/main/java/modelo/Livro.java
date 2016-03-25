@@ -30,6 +30,10 @@ import util.Util;
 			(	name = "Livro.recuperaListaDeLivros",
 				query = "select p from Livro p order by p.id"
 			),
+			@NamedQuery
+			(	name = "Lance.recuperaUltimoLivro",
+				query = "select l from Livro l where l.autor = ?1 order by l.id desc"
+			),
 	/*		@NamedQuery
 			(	name = "Livro.recuperaListaDeLivrosEAutores",
 				query = "select p from Livro p left outer join fetch p.autor order by p.id asc"

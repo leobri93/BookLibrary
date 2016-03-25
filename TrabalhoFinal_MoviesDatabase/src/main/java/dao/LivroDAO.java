@@ -2,18 +2,16 @@ package dao;
 
 import java.util.List;
 
-import modelo.Lance;
-import modelo.Produto;
+import modelo.Livro;
 import anotacao.RecuperaLista;
-import anotacao.RecuperaUltimoOuPrimeiro;
-import excecao.ObjetoNaoEncontradoException;
 
-public interface LivroDAO extends DaoGenerico<Lance, Long>
+public interface LivroDAO extends DaoGenerico<Livro, Long>
 {	
 	@RecuperaLista
-	List<Lance> recuperaListaDeLances();
+	List<Livro> recuperaListaDeLivros();
 	
-	@RecuperaUltimoOuPrimeiro
+/*	@RecuperaUltimoOuPrimeiro
 	Lance recuperaUltimoLance(Produto produto)
-		throws ObjetoNaoEncontradoException; 
+		throws ObjetoNaoEncontradoException;
+*/		 
 }

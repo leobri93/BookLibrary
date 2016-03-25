@@ -4,34 +4,36 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import modelo.Autor;
+import modelo.Lance;
+import modelo.Livro;
+
 import org.springframework.transaction.annotation.Transactional;
 
-import dao.LivroDAO;
+import util.Util;
 import dao.AutorDAO;
+import dao.LivroDAO;
 import excecao.DataDeLanceInvalidaException;
 import excecao.LanceNaoEncontradoException;
 import excecao.ObjetoNaoEncontradoException;
 import excecao.ProdutoNaoEncontradoException;
 import excecao.ValorDeLanceInvalidoException;
-import modelo.Lance;
-import modelo.Produto;
-import util.Util;
 
-public class LanceAppService
+public class LivroAppService
 {	
-	private AutorDAO produtoDAO = null;
-	private LivroDAO lanceDAO = null;
+	private AutorDAO autorDAO = null;
+	private LivroDAO livroDAO = null;
 	
-	public void setProdutoDAO(AutorDAO produtoDAO)
-	{	this.produtoDAO = produtoDAO;
+	public void setAutorDAO(AutorDAO produtoDAO)
+	{	this.autorDAO = produtoDAO;
 	}
 
-	public void setLanceDAO(LivroDAO lanceDAO)
-	{	this.lanceDAO = lanceDAO;
+	public void setLivroDAO(LivroDAO livroDAO)
+	{	this.livroDAO = livroDAO;
 	}
 
 	@Transactional
-	public long inclui(Lance umLance) throws ProdutoNaoEncontradoException, ValorDeLanceInvalidoException, DataDeLanceInvalidaException 
+	public long inclui(Livro umLivro) throws ProdutoNaoEncontradoException, ValorDeLanceInvalidoException, DataDeLanceInvalidaException 
 	{
 		// A  implementação do  método  getPorIdComLock(umProduto.getId()) 
 		// impede que dois  lances  sejam  cadastrados em  paralelo, i. é, 
@@ -39,10 +41,10 @@ public class LanceAppService
 		// impede que o valor do segundo lance seja  inferior  ao valor do
 		// primeiro.
 	
-		Produto umProduto = umLance.getProduto();
+	/*	Autor umAutor = umLivro.getAutor();                    //falta fazer as exceptions
 		
 		try
-		{	umProduto = produtoDAO.getPorIdComLock(umProduto.getId());
+		{	umAutor = autorDAO.getPorIdComLock(umAutor.getId());
 		}
 		catch(ObjetoNaoEncontradoException e)
 		{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
@@ -50,7 +52,7 @@ public class LanceAppService
 
 		Lance ultimoLance; 
 		try
-		{	ultimoLance = lanceDAO.recuperaUltimoLance(umProduto);
+		{	ultimoLance = livroDAO.recuperaUltimoLance(umProduto);
 		}
 		catch(ObjetoNaoEncontradoException e)
 		{	ultimoLance = null;	
@@ -86,35 +88,35 @@ public class LanceAppService
 			throw new DataDeLanceInvalidaException("A data de emissão do lance não pode ser posterior à data de hoje: " 
 					+ Util.calendarToStr(hoje));
 		}
-	
-		Lance lance = lanceDAO.inclui(umLance);
+	*/
+		Livro livro = livroDAO.inclui(umLivro);
 
-		return lance.getId();
+		return livro.getId();
 	}	
 
 	@Transactional
-	public void exclui(Lance umLance) 
-		throws LanceNaoEncontradoException 
+	public void exclui(Livro umLivro) 
+		throws Exception 
 	{	try
-		{	umLance = lanceDAO.getPorId(umLance.getId());
-			lanceDAO.exclui(umLance);
+		{	umLivro = livroDAO.getPorId(umLivro.getId());
+			livroDAO.exclui(umLivro);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new LanceNaoEncontradoException("Lance não encontrado.");
+		{	throw new Exception("Lance não encontrado.");
 		}
 	}
 
-	public Lance recuperaUmLance(long numero) 
+	public Livro recuperaUmLivro(long numero) 
 		throws LanceNaoEncontradoException
 	{	try
-		{	return lanceDAO.getPorId(numero);
+		{	return livroDAO.getPorId(numero);
 		} 
 		catch(ObjetoNaoEncontradoException e)
 		{	throw new LanceNaoEncontradoException("Lance não encontrado");
 		}
 	}
 
-	public List<Lance> recuperaLances()
-	{	return lanceDAO.recuperaListaDeLances();
+	public List<Livro> recuperaLivros()
+	{	return livroDAO.recuperaListaDeLivros();
 	}
 }

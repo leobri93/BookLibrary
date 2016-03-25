@@ -25,7 +25,11 @@ import util.Util;
 			@NamedQuery
 			(	name = "Autor.recuperaListaDeAutores",
 				query = "select a from Autor a order by a.id"
-			)
+			),
+			@NamedQuery
+			(	name = "Autor.recuperaUmAutorELivros",
+				query = "select p from Autor p left outer join fetch p.livros where p.id = ?1"
+			),
 	/*		@NamedQuery
 			(	name = "Autor.recuperaUltimoLivro",
 				query = "select l from Livro l where l.Autor = ?1 order by l.id desc"

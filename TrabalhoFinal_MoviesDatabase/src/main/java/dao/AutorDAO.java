@@ -3,28 +3,29 @@ package dao;
 import java.util.List;
 import java.util.Set;
 
+import modelo.Autor;
 import modelo.Produto;
 import anotacao.RecuperaConjunto;
 import anotacao.RecuperaLista;
 import anotacao.RecuperaObjeto;
 import excecao.ObjetoNaoEncontradoException;
 
-public interface AutorDAO extends DaoGenerico<Produto, Long>
+public interface AutorDAO extends DaoGenerico<Autor, Long>
 {   
 	/* ****** Métodos Genéricos ******* */
 
 	@RecuperaObjeto
-	Produto recuperaUmProdutoELances(long numero) 
+	Autor recuperaUmAutorELivros(long numero) 
 		throws ObjetoNaoEncontradoException;
 
 	@RecuperaLista
-	List<Produto> recuperaListaDeProdutos();
+	List<Autor> recuperaListaDeAutores();
 	
 	@RecuperaLista
-	List<Produto> recuperaListaDeProdutosELances();
+	List<Autor> recuperaListaDeAutoresELivros();
 
 	@RecuperaConjunto
-	Set<Produto> recuperaConjuntoDeProdutosELances();
+	Set<Autor> recuperaConjuntoDeAutoresELivros();
 	
 	/* ****** Métodos não Genéricos ******* */
 

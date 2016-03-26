@@ -73,7 +73,7 @@ public class PrincipalLivro
 					try
 					{	livroAppService.inclui(umLivro);	
 
-						System.out.println('\n' + "Lance adicionado com sucesso");						
+						System.out.println('\n' + "Livro adicionado com sucesso");						
 					}
 					catch(ProdutoNaoEncontradoException |
 						  DataDeLanceInvalidaException |
@@ -119,7 +119,7 @@ public class PrincipalLivro
 					}
 					else
 					{	System.out.println('\n' + 
-							"Lance não removido.");
+							"Livro não removido.");
 					}
 					
 					break;
@@ -130,7 +130,7 @@ public class PrincipalLivro
 									
 					if (arrayLivros.size() == 0)
 					{	System.out.println('\n' + 
-							"Nao há lances cadastrados.");
+							"Nao há livros cadastrados.");
 						break;
 					}
 										

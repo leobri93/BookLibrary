@@ -3,19 +3,25 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import modelo.Autor;
+import modelo.Livro;
+import service.AutorAppService;
+import service.LivroAppService;
+import util.Util;
+import excecao.DataDeLanceInvalidaException;
+import excecao.ProdutoNaoEncontradoException;
+import excecao.ValorDeLanceInvalidoException;
 
 
 public class DialogCadastrar extends JDialog {
@@ -26,6 +32,28 @@ public class DialogCadastrar extends JDialog {
 	private JButton btnLimpar;
 	private JTextField sinopseTextField;
 	private JTextField idAutorTextField;
+	
+	/////////////////informações de livro//////////////////
+	String sinopse;
+	String dataCriacao;
+	String nome;
+	Long numeroExemplares;
+	
+	Autor umAutor;
+	Livro umLivro;
+	/////////////////informações de livro//////////////////
+	
+	///////////////////////////mágica de DAOs///////////////////////////////////////
+	@SuppressWarnings("resource")
+	ApplicationContext fabrica = new ClassPathXmlApplicationContext("beans-jpa.xml");
+
+	AutorAppService autorAppService = 
+		(AutorAppService)fabrica.getBean ("autorAppService");
+	LivroAppService livroAppService = 
+		(LivroAppService)fabrica.getBean ("livroAppService");
+	
+	///////////////////////////mágica de DAOs///////////////////////////////////////
+	
 	
 	public DialogCadastrar(JFrame frame) {
 		
@@ -65,10 +93,12 @@ public class DialogCadastrar extends JDialog {
 		panel.add(nomeTextField);
 		nomeTextField.setColumns(10);
 		
+		
 		sinopseTextField = new JTextField();
 		sinopseTextField.setBounds(109, 122, 289, 20);
 		panel.add(sinopseTextField);
 		sinopseTextField.setColumns(10);
+		
 		
 		idAutorTextField = new JTextField();
 		idAutorTextField.setToolTipText("Para inserir o Id busque o autor abaixo");
@@ -76,10 +106,41 @@ public class DialogCadastrar extends JDialog {
 		panel.add(idAutorTextField);
 		idAutorTextField.setColumns(10);
 		
+		
+		
+		
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				nome=nomeTextField.getText();//pegando o conteudo do campo nome.
+				sinopse=sinopseTextField.getText();//pegando o conteudo do campo sinopse.
+				dataCriacao="12/02/2004";//jogando um numero aleatorio
+				
+				/////////////////////////////criando um objeto autor(umAutor) apartir do id colhido/////////////////
+				try
+				{	umAutor = autorAppService.recuperaUmAutor(1);
+				}
+				catch(ProdutoNaoEncontradoException e)
+				{	System.out.println('\n' + e.getMessage());
+
+				}
+				/////////////////////////////criando um objeto autor(umAutor) apartir do id colhido/////////////////
+				
+				numeroExemplares = (long) 50;    //vou manter fixo, pq sim.
+				umLivro = new Livro(nome, sinopse, numeroExemplares, Util.strToCalendar(dataCriacao), umAutor);
+				
+				try
+				{	livroAppService.inclui(umLivro);	
+
+					System.out.println('\n' + "Livro adicionado com sucesso");						
+				}
+				catch(ProdutoNaoEncontradoException |
+					  DataDeLanceInvalidaException |
+					  ValorDeLanceInvalidoException e)
+				{	
+					System.out.println(e.getMessage());
+				}
 			}
 		});
 		btnSalvar.setBounds(119, 192, 89, 23);

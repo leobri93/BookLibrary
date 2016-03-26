@@ -31,11 +31,11 @@ import util.Util;
 			(	name = "Autor.recuperaUmAutorELivros",
 				query = "select p from Autor p left outer join fetch p.livros where p.id = ?1"
 			),
-	/*		@NamedQuery
-			(	name = "Autor.recuperaUltimoLivro",
-				query = "select l from Livro l where l.Autor = ?1 order by l.id desc"
-			),
 			@NamedQuery
+			(	name = "Autor.recuperaLivros",
+				query = "select l from Livro l where l.autor = ?1 order by l.id asc"
+			),
+			/*	@NamedQuery
 			(	name = "Autor.recuperaUmAutorComLivro",
 				query = "select l from Livro l left outer join fetch l.autor where Autor.id = ?1"
 			)//retorna todos os lances com ou sem produtos(o q nao faz muito sentido, pq todos os lances sao relacionados a um produto).

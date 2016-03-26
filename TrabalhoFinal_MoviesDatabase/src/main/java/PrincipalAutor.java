@@ -12,7 +12,7 @@ import corejava.Console;
 import excecao.ProdutoNaoEncontradoException;
 
 public class PrincipalAutor
-{	public static void main (String[] args) 
+{	public static void main (String[] args) throws ProdutoNaoEncontradoException 
 	{	
 		String nome;
 		
@@ -32,7 +32,7 @@ public class PrincipalAutor
 			System.out.println("2. Alterar um autor");
 			System.out.println("3. Remover um autor");
 			System.out.println("4. Listar um autor e seus livros");
-			System.out.println("5. Listar todos os autores e seus livros");
+			//System.out.println("5. Listar todos os autores e seus livros"); // nao funciona
 			System.out.println("6. Sair");
 						
 			int opcao = Console.readInt('\n' + 
@@ -177,7 +177,7 @@ public class PrincipalAutor
 
 				case 5:
 				{
-					List<Autor> autores = autorAppService.recuperaAutoresELivros();
+					List<Autor> autores = autorAppService.recuperaListaDeAutores();
 						
 					if (autores.size() != 0)
 					{	System.out.println("");
@@ -188,7 +188,7 @@ public class PrincipalAutor
 								"  Nome = " + autor.getNome() +
 								"  Data Cadastro = " + autor.getDataCriacaoMasc());
 
-							List<Livro> livros = autor.getLivros();
+							List<Livro> livros = autorAppService.recuperaLivros(autor.getId());
 							
 							for (Livro livro : livros)
 							{	System.out.println(	'\n' + 

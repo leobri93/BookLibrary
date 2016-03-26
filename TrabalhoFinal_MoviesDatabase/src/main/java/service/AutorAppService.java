@@ -3,6 +3,7 @@ package service;
 import java.util.List;
 
 import modelo.Autor;
+import modelo.Livro;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,7 +74,17 @@ public class AutorAppService
 		}
 	}
 
-	public List<Autor> recuperaAutoresELivros()
-	{	return autorDAO.recuperaListaDeAutoresELivros();
+	public List<Autor> recuperaListaDeAutores()
+	{	return autorDAO.recuperaListaDeAutores();
 	}
+	
+	public List<Livro> recuperaLivros(long numero) 
+			throws ProdutoNaoEncontradoException
+		{	try
+			{	return autorDAO.recuperaLivros(numero);
+			} 
+			catch(ObjetoNaoEncontradoException e)
+			{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
+			}
+		}
 }

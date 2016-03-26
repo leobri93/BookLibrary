@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import modelo.Autor;
+import modelo.Livro;
 import anotacao.RecuperaConjunto;
 import anotacao.RecuperaLista;
 import anotacao.RecuperaObjeto;
@@ -21,8 +22,9 @@ public interface AutorDAO extends DaoGenerico<Autor, Long>
 	List<Autor> recuperaListaDeAutores();
 	
 	@RecuperaLista
-	List<Autor> recuperaListaDeAutoresELivros();
-
+	List<Livro> recuperaLivros(long numero)
+	throws ObjetoNaoEncontradoException;
+	
 	@RecuperaConjunto
 	Set<Autor> recuperaConjuntoDeAutoresELivros();
 	

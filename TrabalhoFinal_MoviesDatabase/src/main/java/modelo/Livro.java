@@ -1,8 +1,6 @@
 package modelo;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -31,7 +27,7 @@ import util.Util;
 				query = "select p from Livro p order by p.id"
 			),
 			@NamedQuery
-			(	name = "Lance.recuperaUltimoLivro",
+			(	name = "Livro.recuperaUltimoLivro",
 				query = "select l from Livro l where l.autor = ?1 order by l.id desc"
 			),
 	/*		@NamedQuery
@@ -46,9 +42,9 @@ import util.Util;
 
 @Entity
 @Table(name="LIVRO")
-//@SequenceGenerator(name="SEQUENCIA02", 
-//		           sequenceName="SEQ_LIVRO",
-//		           allocationSize=1)
+@SequenceGenerator(name="SEQUENCIA01", 
+		           sequenceName="SEQ_LIVRO",
+		           allocationSize=1)
 
 public class Livro
 {	private Long id;
@@ -80,27 +76,24 @@ public class Livro
 	// ********* Métodos do Tipo Get *********
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQUENCIA02")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQUENCIA01")
 	@Column(name="ID")
 
 	public Long getId()
 	{	return id;
 	}
 	
+	
+	@Column(name="NOME")
 	public String getNome()
 	{	return nome;
 	}
 	
+	@Column(name="SINOPSE")
 	public String getSinopse()
 	{	return sinopse;
 	}
 	
-	@Column(name="NUMERO_EXEMPLARES")
-	public Long getNumeroExemplares()
-	{	return numeroExemplares;
-	}
-	
-
 	@Column(name="DATA_CADASTRO")
 	@Temporal(TemporalType.DATE)
 	public Calendar getDataCadastro()
@@ -111,6 +104,12 @@ public class Livro
 	public String getDataCadastroMasc()
 	{	return Util.calendarToStr(dataCadastro);
 	}
+	
+	@Column(name="NUMERO_EXEMPLARES")
+	public Long getNumeroExemplares()
+	{	return numeroExemplares;
+	}
+	
 
 	// ********* Métodos do Tipo Set *********
 
@@ -127,20 +126,22 @@ public class Livro
 	{	this.sinopse = descricao;
 	}
 	
+	public void setDataCadastro(Calendar dataCadastro)
+	{	this.dataCadastro = dataCadastro;
+	}
+	
 	public void setNumeroExemplares(Long numeroExemplares)
 	{	this.numeroExemplares = numeroExemplares;
 	}
 	
-	public void setDataCadastro(Calendar dataCadastro)
-	{	this.dataCadastro = dataCadastro;
-	}
+	
 	
 	
 	
 	// ********* Métodos para Associações *********
 
 	@ManyToOne(fetch=FetchType.LAZY)//mapeia q há uma associação entre produto e lances.
-	@JoinColumn(name="LIVRO_AUTOR_ID")//na tabela lances vai ter uma coluna produto_id, q vai apontar para a PK de produto.
+	@JoinColumn(name="AUTOR_ID")//na tabela lances vai ter uma coluna produto_id, q vai apontar para a PK de produto.
 	public Autor getAutor()
 	{	return autor;
 	}

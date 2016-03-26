@@ -1,16 +1,11 @@
 package service;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import modelo.Autor;
-import modelo.Lance;
 import modelo.Livro;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import util.Util;
 import dao.AutorDAO;
 import dao.LivroDAO;
 import excecao.DataDeLanceInvalidaException;

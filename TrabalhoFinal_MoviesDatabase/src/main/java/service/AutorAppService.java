@@ -3,7 +3,6 @@ package service;
 import java.util.List;
 
 import modelo.Autor;
-import modelo.Produto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

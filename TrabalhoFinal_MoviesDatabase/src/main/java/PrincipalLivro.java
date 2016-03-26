@@ -48,7 +48,7 @@ public class PrincipalLivro
 			switch (opcao)
 			{	case 1:
 				{
-					long idAutor = Console.readInt('\n' + "Informe o número do livro: ");
+					long idAutor = Console.readInt('\n' + "Informe o número do autor: ");
 					
 					try
 					{	umAutor = autorAppService.recuperaUmAutor(idAutor);

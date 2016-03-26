@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import modelo.Autor;
-import modelo.Produto;
 import anotacao.RecuperaConjunto;
 import anotacao.RecuperaLista;
 import anotacao.RecuperaObjeto;

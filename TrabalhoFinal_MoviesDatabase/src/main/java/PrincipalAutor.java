@@ -1,9 +1,7 @@
 import java.util.List;
 
 import modelo.Autor;
-import modelo.Lance;
 import modelo.Livro;
-import modelo.Produto;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

@@ -47,7 +47,8 @@ import util.Util;
 		           allocationSize=1)
 
 public class Livro
-{	private Long id;
+{	
+	private Long id;
 	private String nome;
 	private String sinopse;
 	private Long numeroExemplares;
@@ -136,12 +137,10 @@ public class Livro
 	
 	
 	
-	
-	
 	// ********* Métodos para Associações *********
 
-	@ManyToOne(fetch=FetchType.LAZY)//mapeia q há uma associação entre produto e lances.
-	@JoinColumn(name="AUTOR_ID")//na tabela lances vai ter uma coluna produto_id, q vai apontar para a PK de produto.
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="AUTOR_ID")
 	public Autor getAutor()
 	{	return autor;
 	}

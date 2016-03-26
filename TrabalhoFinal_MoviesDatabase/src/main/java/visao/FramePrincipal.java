@@ -42,6 +42,15 @@ public class FramePrincipal extends JFrame {
 		});
 		mnCadastrar.add(mntmLivroCadastrar);
 		
+		JMenuItem mntmAutor = new JMenuItem("Autor");
+		mntmAutor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DialogCadastrarAutor dialog = new DialogCadastrarAutor(frame);
+				dialog.setVisible(true);
+			}
+		});
+		mnCadastrar.add(mntmAutor);
+		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Sair");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

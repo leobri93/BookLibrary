@@ -2,6 +2,7 @@ package visao;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -11,17 +12,23 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import modelo.Autor;
+import modelo.Livro;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import modelo.Autor;
-import modelo.Livro;
 import service.AutorAppService;
 import service.LivroAppService;
-import util.Util;
+import util.DatabaseDateFormat;
 import excecao.DataDeLanceInvalidaException;
 import excecao.ProdutoNaoEncontradoException;
 import excecao.ValorDeLanceInvalidoException;
+
+import javax.swing.SpringLayout;
 
 
 public class DialogCadastrar extends JDialog {
@@ -32,28 +39,25 @@ public class DialogCadastrar extends JDialog {
 	private JButton btnLimpar;
 	private JTextField sinopseTextField;
 	private JTextField idAutorTextField;
+	private JTextField numeroExemplaresTextField;
 	
-	/////////////////informações de livro//////////////////
-	String sinopse;
-	String dataCriacao;
-	String nome;
-	Long numeroExemplares;
+	// Informações de livro
+	private String sinopse;
+	private Calendar dataCriacao;
+	private String nome;
+	private long numeroExemplares;
 	
-	Autor umAutor;
-	Livro umLivro;
-	/////////////////informações de livro//////////////////
+	private Autor umAutor;
+	private Livro umLivro;
 	
-	///////////////////////////mágica de DAOs///////////////////////////////////////
-	@SuppressWarnings("resource")
+	// ----------------------- Fabrica de DAOs --------------------------- //
 	ApplicationContext fabrica = new ClassPathXmlApplicationContext("beans-jpa.xml");
 
 	AutorAppService autorAppService = 
 		(AutorAppService)fabrica.getBean ("autorAppService");
 	LivroAppService livroAppService = 
 		(LivroAppService)fabrica.getBean ("livroAppService");
-	
-	///////////////////////////mágica de DAOs///////////////////////////////////////
-	
+	// ----------------------- Fim da fabrica de DAOs -------------------- //
 	
 	public DialogCadastrar(JFrame frame) {
 		
@@ -76,59 +80,87 @@ public class DialogCadastrar extends JDialog {
 		panel.add(lblNewLabel);
 		
 		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(38, 95, 46, 14);
+		lblNome.setBounds(20, 80, 64, 14);
 		panel.add(lblNome);
 		
 		JLabel lblSinopse = new JLabel("Sinopse:");
-		lblSinopse.setBounds(38, 125, 61, 14);
+		lblSinopse.setBounds(20, 111, 79, 14);
 		panel.add(lblSinopse);
 		
 		JLabel lblIdAutor = new JLabel("Id Autor:");
-		lblIdAutor.setToolTipText("");
-		lblIdAutor.setBounds(38, 155, 79, 14);
+		lblIdAutor.setBounds(20, 142, 97, 14);
 		panel.add(lblIdAutor);
 		
+		UtilDateModel model = new UtilDateModel();
+		JDatePanelImpl datePanel = new JDatePanelImpl(model);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DatabaseDateFormat());
+		datePicker.getJFormattedTextField().setToolTipText("Selecione a data de emiss\u00E3o");
+		SpringLayout springLayout = (SpringLayout) datePicker.getLayout();
+		springLayout.putConstraint(SpringLayout.SOUTH, datePicker.getJFormattedTextField(), 0, SpringLayout.SOUTH, datePicker);
+		datePicker.setBounds(109, 198, 165, 36);
+		panel.add(datePicker);
+		
 		nomeTextField = new JTextField();
-		nomeTextField.setBounds(109, 92, 289, 20);
+		nomeTextField.setBounds(109, 77, 289, 20);
 		panel.add(nomeTextField);
 		nomeTextField.setColumns(10);
 		
 		
 		sinopseTextField = new JTextField();
-		sinopseTextField.setBounds(109, 122, 289, 20);
+		sinopseTextField.setBounds(109, 108, 289, 20);
 		panel.add(sinopseTextField);
 		sinopseTextField.setColumns(10);
 		
 		
 		idAutorTextField = new JTextField();
 		idAutorTextField.setToolTipText("Para inserir o Id busque o autor abaixo");
-		idAutorTextField.setBounds(109, 152, 289, 20);
+		idAutorTextField.setBounds(109, 139, 289, 20);
 		panel.add(idAutorTextField);
 		idAutorTextField.setColumns(10);
 		
+		JLabel lblDataDeEmissao = new JLabel("Data de Emiss\u00E3o:");
+		lblDataDeEmissao.setBounds(20, 201, 96, 14);
+		panel.add(lblDataDeEmissao);
 		
+		JLabel lblNumExemplares = new JLabel("N. Exemplares:");
+		lblNumExemplares.setBounds(20, 170, 87, 14);
+		panel.add(lblNumExemplares);
 		
+		numeroExemplaresTextField = new JTextField();
+		numeroExemplaresTextField.setBounds(109, 167, 289, 20);
+		panel.add(numeroExemplaresTextField);
+		numeroExemplaresTextField.setColumns(10);
 		
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				nome=nomeTextField.getText();//pegando o conteudo do campo nome.
-				sinopse=sinopseTextField.getText();//pegando o conteudo do campo sinopse.
-				dataCriacao="12/02/2004";//jogando um numero aleatorio
+				//Pegando o conteudo do campo nome
+				nome = nomeTextField.getText();
 				
-				/////////////////////////////criando um objeto autor(umAutor) apartir do id colhido/////////////////
+				//Pegando o conteudo do campo sinopse
+				sinopse = sinopseTextField.getText();
+				
+				//Pegando o campo data de criacao
+				 dataCriacao = (Calendar) datePicker.getModel().getValue();
+				
+				//Pegando numero de exemplares
+				numeroExemplares = Long.parseLong(numeroExemplaresTextField.getText());
+				
+				// -------------------- Criando um objeto autor com o id colhido ------------------- // 
 				try
-				{	umAutor = autorAppService.recuperaUmAutor(1);
+				{	
+					umAutor = autorAppService.recuperaUmAutor(Long.parseLong(idAutorTextField.getText()));
 				}
 				catch(ProdutoNaoEncontradoException e)
-				{	System.out.println('\n' + e.getMessage());
-
+				{	
+					System.out.println('\n' + e.getMessage());
 				}
-				/////////////////////////////criando um objeto autor(umAutor) apartir do id colhido/////////////////
+				// -------------------- Fim da criacao do autor ------------------------------------ //
 				
-				numeroExemplares = (long) 50;    //vou manter fixo, pq sim.
-				umLivro = new Livro(nome, sinopse, numeroExemplares, Util.strToCalendar(dataCriacao), umAutor);
+				
+				//Instanciando objeto livro
+				umLivro = new Livro(nome, sinopse, numeroExemplares, dataCriacao, umAutor);
 				
 				try
 				{	livroAppService.inclui(umLivro);	
@@ -143,19 +175,20 @@ public class DialogCadastrar extends JDialog {
 				}
 			}
 		});
-		btnSalvar.setBounds(119, 192, 89, 23);
+		btnSalvar.setBounds(119, 245, 89, 23);
 		panel.add(btnSalvar);
 		
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				nomeTextField   .setText("");
-				sinopseTextField.setText("");
-				idAutorTextField.setText("");
+				nomeTextField            .setText("");
+				sinopseTextField         .setText("");
+				idAutorTextField         .setText("");
+				numeroExemplaresTextField.setText("");
 			}
 		});
-		btnLimpar.setBounds(244, 192, 89, 23);
+		btnLimpar.setBounds(239, 245, 89, 23);
 		panel.add(btnLimpar);
 		
 		// ------------ Fim do Cadastro ---------------- //
@@ -164,8 +197,10 @@ public class DialogCadastrar extends JDialog {
 		JLabel lblBuscarAutor = new JLabel("Busca Autor");
 		lblBuscarAutor.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBuscarAutor.setFont(new Font("Leelawadee UI", Font.BOLD, 13));
-		lblBuscarAutor.setBounds(0, 246, 434, 14);
+		lblBuscarAutor.setBounds(0, 293, 434, 14);
 		panel.add(lblBuscarAutor);
+		
+		
 		
 		
 		

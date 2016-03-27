@@ -41,7 +41,7 @@ import util.Util;
 			),
 			@NamedQuery
 			(	name = "Autor.recuperaNumeroDeRows",
-				query = "select count(c) from Autor c where c.nome like ?1	"	
+				query = "select count(c) from Autor c where c.nome like  ?1	"	
 			),
 			/*	
 				@NamedQuery

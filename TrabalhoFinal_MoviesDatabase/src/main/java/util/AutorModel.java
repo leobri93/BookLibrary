@@ -17,7 +17,7 @@ public class AutorModel extends AbstractTableModel
 	public static final int COLUNA_DATA = 2;
 	
 	
-	private static AutorAppService AutorAppService = new AutorAppService();
+	private static AutorAppService autorAppService = new AutorAppService();
 
     private Map<Integer, Autor> cache;
     private int rowIndexAnterior = 0;
@@ -30,7 +30,7 @@ public class AutorModel extends AbstractTableModel
 		this.cache = new HashMap<Integer, Autor>(170);
 	}
 
-    public void setLogradouro(String fator)
+    public void setFatorDeBusca(String fator)
     {
     	this.fator = fator;
     }
@@ -45,13 +45,13 @@ public class AutorModel extends AbstractTableModel
 	
 	@Override
 	public int getColumnCount() {
-		return 4;
+		return 3;
 	}
 
 	@Override
 	public int getRowCount() {
 		if(qtd == null)
-			qtd = (int)AutorAppService.recuperaQtd(fator.toUpperCase());
+			qtd = (int)autorAppService.recuperaQtd(fator.toUpperCase());
 
 		return qtd;
 	}
@@ -82,11 +82,12 @@ public class AutorModel extends AbstractTableModel
 					System.out.println("Como estamos navegando para baixo e como a linha " + rowIndex + " não foi encontrada no cache (que foi apagado), vamos recuperar do banco 40 linhas com deslocamento de " + (rowIndex - 19));
 					
 					// A tabela não pode ter mais de 20 linhas
-					List<Autor> resultados = AutorAppService.recuperaListaDeAutoresLimitado(fator.toUpperCase(), rowIndex - 19, 40);
+					List<Autor> resultados = autorAppService.recuperaListaDeAutoresLimitado(fator.toUpperCase(), rowIndex - 19, 40);
 				
 					for (int j = 0; j < resultados.size(); j++) 
 					{	Autor autor = resultados.get(j);
 						cache.put(rowIndex - 19 + j, autor);
+						
 					}
 				}
 				else
@@ -103,7 +104,7 @@ public class AutorModel extends AbstractTableModel
 					
 					System.out.println("Como estamos navegando para cima e como a linha " + rowIndex + " não foi encontrada no cache (que foi apagado), vamos recuperar do banco 40 linhas com deslocamento de " + inicio);
 					
-					List<Autor> resultados = AutorAppService
+					List<Autor> resultados = autorAppService
 						.recuperaListaDeAutoresLimitado(fator.toUpperCase(), inicio, 40);
 					
 					System.out.println("resultados = " + resultados.size());
@@ -128,7 +129,7 @@ public class AutorModel extends AbstractTableModel
 
 					System.out.println("Como estamos navegando para baixo e a linha " + rowIndex + " não foi encontrada, vamos recuperar do banco 40 linhas com um deslocamento de " + rowIndex);
 					
-					List<Autor> resultados = AutorAppService
+					List<Autor> resultados = autorAppService
 						.recuperaListaDeAutoresLimitado(fator.toUpperCase(), rowIndex, 40);//ele quer pegar, a partir da linha rowIndex,
 					                                                                 //40 linhas no banco para o cache.
 					for (int j = 0; j < resultados.size(); j++) 
@@ -151,7 +152,7 @@ public class AutorModel extends AbstractTableModel
 							+ rowIndex + " não foi encontrada, vamos recuperar do banco "
 									+ "40 linhas com inicio a partir de " + inicio);
 					
-					List<Autor> resultados = AutorAppService
+					List<Autor> resultados = autorAppService
 						.recuperaListaDeAutoresLimitado(fator.toUpperCase(), inicio, 40);
 					
 					System.out.println("resultados = " + resultados.size());
@@ -206,7 +207,7 @@ public class AutorModel extends AbstractTableModel
 		
 
 		try 
-		{	AutorAppService.altera(umAutor);
+		{	autorAppService.altera(umAutor);
 		} 
 		catch (Exception e) 
 		{	e.printStackTrace();

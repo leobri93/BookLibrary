@@ -90,7 +90,7 @@ public class AutorAppService
 		}
 	
 	public int recuperaQtd(String fator)
-	{	return autorDAO.recuperaNumeroDeRows(fator);
+	{	return autorDAO.recuperaNumeroDeRows(fator + "%");
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -101,7 +101,7 @@ public class AutorAppService
 		{	
 			// order by c.nome asc
 		
-			return autorDAO.buscaPaginada(fator+ "%",inicio,linhasPorPagina);
+			return autorDAO.buscaPaginada(fator + "%",inicio,linhasPorPagina);
 
 			
 		} 

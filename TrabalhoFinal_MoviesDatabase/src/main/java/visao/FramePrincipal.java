@@ -1,11 +1,12 @@
 package visao;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 
 public class FramePrincipal extends JFrame {
@@ -70,6 +71,16 @@ public class FramePrincipal extends JFrame {
 			}
 		});
 		mnBuscar.add(mntmLivroBuscar);
+		
+		JMenuItem mntmAutorBuscar = new JMenuItem("Autor");
+		mntmAutorBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			DialogTabelAutor dialog = new DialogTabelAutor(frame);
+			dialog.setVisible(true);
+			}
+		});
+		mnBuscar.add(mntmAutorBuscar);
 		
 		menuBar.add(mntmNewMenuItem);
 	}

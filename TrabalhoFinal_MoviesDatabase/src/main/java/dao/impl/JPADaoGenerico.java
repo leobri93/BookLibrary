@@ -184,36 +184,7 @@ public class JPADaoGenerico<T, PK>
         {   throw new InfraestruturaException(e);
         }
     }
-    
- @SuppressWarnings("unchecked")
-    public List<T> buscaPaginada(Method metodo, Object[] argumentos) //o argumento 1 vai ser o fator de busca o restante vao ser 
-    																//os limitantes.
-		{
-    	
-    	try 
-        {
-            String nomeDaBusca = getNomeDaBuscaPeloMetodo(metodo);
-            Query namedQuery = em.createNamedQuery(nomeDaBusca);
-    
-            if (argumentos != null)
-            {
-                
-                    Object arg = argumentos[0];
-                    namedQuery.setParameter(1, arg); // Parâmetros de buscas são 1-based.
-                
-            }
-            return (List<T>)namedQuery
-    				.setFirstResult((int)argumentos[1])
-					.setMaxResults((int)argumentos[2])
-					.getResultList();
-        }
-        catch(RuntimeException e)
-        {   throw new InfraestruturaException(e);
-        }
-    	
-    	
-	}
-	//*/
+	
     @SuppressWarnings("unchecked")
     public final Set<T> buscaConjunto(Method metodo, 
     		                       Object[] argumentos)
@@ -241,7 +212,5 @@ public class JPADaoGenerico<T, PK>
 
     private String getNomeDaBuscaPeloMetodo(Method metodo) 
     { 	return tipo.getSimpleName() + "." + metodo.getName(); 
-    }
-
-	   
+    }    
 }

@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import anotacao.BuscaPaginada;
 import anotacao.RecuperaConjunto;
 import anotacao.RecuperaLista;
 import anotacao.RecuperaObjeto;
@@ -60,10 +59,6 @@ public class InterceptadorDeDAO implements MethodInterceptor
         else if(metodo.isAnnotationPresent(RecuperaObjeto.class))
         {	// O método busca() retorna um Objeto (Entidade)
         	return daoGenerico.busca(metodo, args);
-        }
-        else if(metodo.isAnnotationPresent(BuscaPaginada.class))
-        {	// O método busca() retorna um Objeto (Entidade)
-        	return daoGenerico.buscaPaginada(metodo, args);
         }
         else 
         {  	throw new InfraestruturaException("Um método não final deixou de ser anotado");

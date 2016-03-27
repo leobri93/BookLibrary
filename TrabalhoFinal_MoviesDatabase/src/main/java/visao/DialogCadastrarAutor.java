@@ -3,10 +3,7 @@ package visao;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -27,7 +24,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import service.AutorAppService;
 import util.DatabaseDateFormat;
-import util.Util;
+import excecao.DataDeLanceInvalidaException;
+import excecao.ProdutoNaoEncontradoException;
+import excecao.ValorDeLanceInvalidoException;
 
 public class DialogCadastrarAutor extends JDialog {
 
@@ -104,25 +103,22 @@ public class DialogCadastrarAutor extends JDialog {
 				nome = nomeTextField.getText();
 
 				// Pegando o campo data de nascimento
-				Date selectedDate = (Date) datePicker.getModel().getValue();
-			    DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-			    String reportDate = df.format(selectedDate);
-			    dataNascimento = Util.strToCalendar(reportDate) ;
+				dataNascimento = (Calendar) datePicker.getModel().getValue();
 
 				// Instancia um objeto autor
 				umAutor = new Autor(nome, dataNascimento);
 
-				
+				/**
 				try {
 					autorAppService.inclui(umAutor);
 
-					System.out.println('\n' + "Livro adicionado com sucesso");						
+					System.out.println('\n' + "Autor adicionado com sucesso");
+				} catch (ProdutoNaoEncontradoException
+						| DataDeLanceInvalidaException
+						| ValorDeLanceInvalidoException e) {
+					System.out.println(e.getMessage());
 				}
-				catch(Exception  b)
-				{	
-					System.out.println(b.getMessage());
-				}
-				
+				**/
 			}
 		});
 		panel.add(btnSalvar);

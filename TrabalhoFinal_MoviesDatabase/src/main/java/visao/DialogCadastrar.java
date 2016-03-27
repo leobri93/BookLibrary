@@ -2,7 +2,10 @@ package visao;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -10,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
 import modelo.Autor;
@@ -24,11 +28,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.AutorAppService;
 import service.LivroAppService;
 import util.DatabaseDateFormat;
+import util.Util;
 import excecao.DataDeLanceInvalidaException;
 import excecao.ProdutoNaoEncontradoException;
 import excecao.ValorDeLanceInvalidoException;
-
-import javax.swing.SpringLayout;
 
 
 public class DialogCadastrar extends JDialog {
@@ -142,7 +145,10 @@ public class DialogCadastrar extends JDialog {
 				sinopse = sinopseTextField.getText();
 				
 				//Pegando o campo data de criacao
-				 dataCriacao = (Calendar) datePicker.getModel().getValue();
+				Date selectedDate = (Date) datePicker.getModel().getValue();
+			    DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			    String reportDate = df.format(selectedDate);
+				dataCriacao = Util.strToCalendar(reportDate) ;
 				
 				//Pegando numero de exemplares
 				numeroExemplares = Long.parseLong(numeroExemplaresTextField.getText());

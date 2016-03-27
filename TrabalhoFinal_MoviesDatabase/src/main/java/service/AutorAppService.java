@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import dao.AutorDAO;
+import excecao.InfraestruturaException;
 import excecao.ObjetoNaoEncontradoException;
 import excecao.ProdutoNaoEncontradoException;
 
@@ -87,4 +88,27 @@ public class AutorAppService
 			{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
 			}
 		}
+	
+	public int recuperaQtd(String fator)
+	{	return autorDAO.recuperaNumeroDeRows(fator);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Autor> recuperaListaDeAutoresLimitado(String fator, 
+            							 int inicio, 
+            							 int linhasPorPagina)
+	{	try
+		{	
+			// order by c.nome asc
+		
+			return autorDAO.buscaPaginada(fator+ "%",inicio,linhasPorPagina);
+
+			
+		} 
+		catch(RuntimeException e)
+		{	throw new InfraestruturaException(e);
+		}
+	}
+	
+	
 }

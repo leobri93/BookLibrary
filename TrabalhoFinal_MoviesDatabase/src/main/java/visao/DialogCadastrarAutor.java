@@ -106,14 +106,14 @@ public class DialogCadastrarAutor extends JDialog {
 				// Pegando o campo data de nascimento
 				Date selectedDate = (Date) datePicker.getModel().getValue();
 			    DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-			    String reportDate = df.format(selectedDate);
-			    dataNascimento = Util.strToCalendar(reportDate) ;
+			    String formattedDate = df.format(selectedDate);
+			    dataNascimento = Util.strToCalendar(formattedDate) ;
 
 				// Instancia um objeto autor
 				umAutor = new Autor(nome, dataNascimento);
 
-				
-				try {
+				try 
+				{
 					autorAppService.inclui(umAutor);
 
 					System.out.println('\n' + "Livro adicionado com sucesso");						
@@ -129,6 +129,11 @@ public class DialogCadastrarAutor extends JDialog {
 
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(223, 200, 89, 23);
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				nomeTextField.setText("");
+			}
+		});
 		panel.add(btnLimpar);
 	}
 }

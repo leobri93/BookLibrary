@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 import modelo.Autor;
 import service.AutorAppService;
 import util.AutorModel;
+import javax.swing.SwingConstants;
 
 public class DialogTabelAutor extends JDialog {
 
@@ -34,29 +35,30 @@ public class DialogTabelAutor extends JDialog {
 	
 	public DialogTabelAutor(JFrame frame) {
 		super(frame);
-		setBounds(100, 100, 550, 600);
+		setBounds(10, 10, 450, 500);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 534, 169);
+		panel.setBounds(0, 0, 434, 169);
 		contentPanel.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblPesquisaDeAutores = new JLabel("Pesquisa de autores");
-		lblPesquisaDeAutores.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblPesquisaDeAutores.setBounds(205, 11, 139, 14);
+		JLabel lblPesquisaDeAutores = new JLabel("Buscar Autor");
+		lblPesquisaDeAutores.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPesquisaDeAutores.setFont(new Font("Leelawadee UI", Font.BOLD, 13));
+		lblPesquisaDeAutores.setBounds(0, 11, 434, 14);
 		panel.add(lblPesquisaDeAutores);
 		
 		JLabel lblAutores = new JLabel("Autor:");
 		lblAutores.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblAutores.setBounds(93, 74, 45, 14);
+		lblAutores.setBounds(34, 74, 45, 14);
 		panel.add(lblAutores);
 		
 		fatorTextField = new JTextField();
-		fatorTextField.setBounds(148, 72, 276, 20);
+		fatorTextField.setBounds(89, 72, 276, 20);
 		panel.add(fatorTextField);
 		fatorTextField.setColumns(10);
 		
@@ -77,12 +79,18 @@ public class DialogTabelAutor extends JDialog {
 				scrollPane.setVisible(true);
 			}
 		});
-		btnPesquisar.setBounds(230, 122, 89, 23);
+		btnPesquisar.setBounds(172, 122, 89, 23);
 		panel.add(btnPesquisar);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 180, 534, 381);
+		scrollPane.setBounds(0, 214, 434, 247);
 		contentPanel.add(scrollPane);
+		
+		JLabel lblResultado = new JLabel("Resultado");
+		lblResultado.setHorizontalAlignment(SwingConstants.CENTER);
+		lblResultado.setFont(new Font("Leelawadee UI", Font.BOLD, 13));
+		lblResultado.setBounds(0, 180, 434, 14);
+		contentPanel.add(lblResultado);
 		
 	}
 }

@@ -1,5 +1,4 @@
 package util;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,7 @@ public class AutorModel extends AbstractTableModel
 	public static final int COLUNA_NOME = 1;
 	public static final int COLUNA_DATA = 2;
 	
+	private final static int NUMERO_DE_LINHAS_POR_PAGINA = 5;
 	
 	private static AutorAppService autorAppService = new AutorAppService();
 
@@ -51,8 +51,10 @@ public class AutorModel extends AbstractTableModel
 	@Override
 	public int getRowCount() {
 		if(qtd == null)
+		{
 			qtd = (int)autorAppService.recuperaQtd(fator.toUpperCase());
-
+			cache = new HashMap<Integer, Autor>(NUMERO_DE_LINHAS_POR_PAGINA * 4 / 75 /100 + 2);
+		}
 		return qtd;
 	}
 	

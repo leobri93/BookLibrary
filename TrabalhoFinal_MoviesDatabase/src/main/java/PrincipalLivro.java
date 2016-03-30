@@ -10,10 +10,8 @@ import service.AutorAppService;
 import service.LivroAppService;
 import util.Util;
 import corejava.Console;
-import excecao.DataDeLanceInvalidaException;
-import excecao.LanceNaoEncontradoException;
-import excecao.ProdutoNaoEncontradoException;
-import excecao.ValorDeLanceInvalidoException;
+import excecao.AutorNaoEncontradoException;
+import excecao.LivroNaoEncontradoException;
 
 public class PrincipalLivro
 {	public static void main (String[] args) 
@@ -53,7 +51,7 @@ public class PrincipalLivro
 					try
 					{	umAutor = autorAppService.recuperaUmAutor(idAutor);
 					}
-					catch(ProdutoNaoEncontradoException e)
+					catch(AutorNaoEncontradoException e)
 					{	System.out.println('\n' + e.getMessage());
 						break;
 					}
@@ -75,9 +73,7 @@ public class PrincipalLivro
 
 						System.out.println('\n' + "Livro adicionado com sucesso");						
 					}
-					catch(ProdutoNaoEncontradoException |
-						  DataDeLanceInvalidaException |
-						  ValorDeLanceInvalidoException e)
+					catch(Exception e)
 					{	
 						System.out.println(e.getMessage());
 					}
@@ -92,7 +88,7 @@ public class PrincipalLivro
 					try
 					{	umLivro = livroAppService.recuperaUmLivro(resposta);
 					}
-					catch(LanceNaoEncontradoException e)
+					catch(LivroNaoEncontradoException e)
 					{	System.out.println('\n' + e.getMessage());
 						break;
 					}
@@ -111,9 +107,9 @@ public class PrincipalLivro
 					{	try
 						{	livroAppService.exclui (umLivro);
 							System.out.println('\n' + 
-								"Lance removido com sucesso!");
+								"Livro removido com sucesso!");
 						}
-						catch(Exception e)
+						catch(LivroNaoEncontradoException e)
 						{	System.out.println(e.getMessage());
 						}
 					}

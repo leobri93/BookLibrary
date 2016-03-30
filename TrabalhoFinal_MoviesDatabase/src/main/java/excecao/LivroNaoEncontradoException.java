@@ -1,13 +1,12 @@
 package excecao;
-
 import anotacao.ExcecaoDeAplicacao;
 
 @ExcecaoDeAplicacao
-public class ProdutoNaoEncontradoException extends Exception
-{	
+public class LivroNaoEncontradoException extends Exception
+{
 	private final static long serialVersionUID = 1;
 	
-	public ProdutoNaoEncontradoException(String msg)
+	public LivroNaoEncontradoException(String msg)
 	{	super(msg);
 	}
-}	
+}

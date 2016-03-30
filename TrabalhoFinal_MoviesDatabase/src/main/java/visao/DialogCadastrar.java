@@ -29,9 +29,9 @@ import service.AutorAppService;
 import service.LivroAppService;
 import util.DatabaseDateFormat;
 import util.Util;
-import excecao.DataDeLanceInvalidaException;
-import excecao.ProdutoNaoEncontradoException;
-import excecao.ValorDeLanceInvalidoException;
+import excecao.AutorNaoEncontradoException;
+
+import javax.swing.JSeparator;
 
 
 public class DialogCadastrar extends JDialog {
@@ -60,6 +60,7 @@ public class DialogCadastrar extends JDialog {
 		(AutorAppService)fabrica.getBean ("autorAppService");
 	LivroAppService livroAppService = 
 		(LivroAppService)fabrica.getBean ("livroAppService");
+	private final JSeparator separator = new JSeparator();
 	// ----------------------- Fim da fabrica de DAOs -------------------- //
 	
 	public DialogCadastrar(JFrame frame) {
@@ -147,8 +148,8 @@ public class DialogCadastrar extends JDialog {
 				//Pegando o campo data de criacao
 				Date selectedDate = (Date) datePicker.getModel().getValue();
 			    DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-			    String reportDate = df.format(selectedDate);
-				dataCriacao = Util.strToCalendar(reportDate) ;
+			    String formattedDate = df.format(selectedDate);
+				dataCriacao = Util.strToCalendar(formattedDate) ;
 				
 				//Pegando numero de exemplares
 				numeroExemplares = Long.parseLong(numeroExemplaresTextField.getText());
@@ -158,7 +159,7 @@ public class DialogCadastrar extends JDialog {
 				{	
 					umAutor = autorAppService.recuperaUmAutor(Long.parseLong(idAutorTextField.getText()));
 				}
-				catch(ProdutoNaoEncontradoException e)
+				catch(AutorNaoEncontradoException e)
 				{	
 					System.out.println('\n' + e.getMessage());
 				}
@@ -173,9 +174,7 @@ public class DialogCadastrar extends JDialog {
 
 					System.out.println('\n' + "Livro adicionado com sucesso");						
 				}
-				catch(ProdutoNaoEncontradoException |
-					  DataDeLanceInvalidaException |
-					  ValorDeLanceInvalidoException e)
+				catch(Exception e)
 				{	
 					System.out.println(e.getMessage());
 				}
@@ -199,16 +198,26 @@ public class DialogCadastrar extends JDialog {
 		
 		// ------------ Fim do Cadastro ---------------- //
 		
+		separator.setBounds(0, 308, 434, 31);
+		panel.add(separator);
+		
 		// ------------ Busca de Autor ----------------- //
 		JLabel lblBuscarAutor = new JLabel("Busca Autor");
 		lblBuscarAutor.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBuscarAutor.setFont(new Font("Leelawadee UI", Font.BOLD, 13));
-		lblBuscarAutor.setBounds(0, 293, 434, 14);
+		lblBuscarAutor.setBounds(0, 334, 434, 14);
 		panel.add(lblBuscarAutor);
 		
-		
-		
-		
-		
+		JButton btnBuscarAutor = new JButton("Ir para Busca de Autor");
+		btnBuscarAutor.setBounds(119, 380, 209, 23);
+		btnBuscarAutor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			DialogTabelAutor dialog = new DialogTabelAutor(frame);
+			dialog.setVisible(true);
+			}
+		});
+		panel.add(btnBuscarAutor);
+		// ----------- Fim da busca de autor ---------- //
 	}
 }

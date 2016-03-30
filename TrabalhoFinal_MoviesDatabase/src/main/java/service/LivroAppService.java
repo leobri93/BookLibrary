@@ -8,11 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dao.AutorDAO;
 import dao.LivroDAO;
-import excecao.DataDeLanceInvalidaException;
-import excecao.LanceNaoEncontradoException;
+import excecao.LivroNaoEncontradoException;
 import excecao.ObjetoNaoEncontradoException;
-import excecao.ProdutoNaoEncontradoException;
-import excecao.ValorDeLanceInvalidoException;
 
 public class LivroAppService
 {	
@@ -28,7 +25,7 @@ public class LivroAppService
 	}
 
 	@Transactional
-	public long inclui(Livro umLivro) throws ProdutoNaoEncontradoException, ValorDeLanceInvalidoException, DataDeLanceInvalidaException 
+	public long inclui(Livro umLivro)  
 	{
 		// A  implementação do  método  getPorIdComLock(umProduto.getId()) 
 		// impede que dois  lances  sejam  cadastrados em  paralelo, i. é, 
@@ -91,23 +88,23 @@ public class LivroAppService
 
 	@Transactional
 	public void exclui(Livro umLivro) 
-		throws Exception 
+		throws LivroNaoEncontradoException 
 	{	try
 		{	umLivro = livroDAO.getPorId(umLivro.getId());
 			livroDAO.exclui(umLivro);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new Exception("Lance não encontrado.");
+		{	throw new LivroNaoEncontradoException("Lance não encontrado.");
 		}
 	}
 
 	public Livro recuperaUmLivro(long numero) 
-		throws LanceNaoEncontradoException
+		throws LivroNaoEncontradoException
 	{	try
 		{	return livroDAO.getPorId(numero);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new LanceNaoEncontradoException("Lance não encontrado");
+		{	throw new LivroNaoEncontradoException("Lance não encontrado");
 		}
 	}
 

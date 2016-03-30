@@ -15,6 +15,7 @@ public class AutorModel extends AbstractTableModel
 	public static final int COLUNA_NOME = 1;
 	public static final int COLUNA_DATA_NASCIMENTO = 2;
 	
+	private final static int NUMERO_DE_LINHAS_POR_PAGINA = 5;
 	
 	private static AutorAppService autorAppService = new AutorAppService();
 
@@ -50,8 +51,15 @@ public class AutorModel extends AbstractTableModel
 	@Override
 	public int getRowCount() {
 		if(qtd == null)
+<<<<<<< HEAD
 			qtd = (int)autorAppService.recuperaNumeroDeRows(fator.toUpperCase());
 
+=======
+		{
+			qtd = (int)autorAppService.recuperaQtd(fator.toUpperCase());
+			cache = new HashMap<Integer, Autor>(NUMERO_DE_LINHAS_POR_PAGINA * 4 / 75 /100 + 2);
+		}
+>>>>>>> origin/master
 		return qtd;
 	}
 	

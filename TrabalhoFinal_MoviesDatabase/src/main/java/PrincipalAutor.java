@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 import modelo.Autor;
@@ -9,10 +10,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.AutorAppService;
 import util.Util;
 import corejava.Console;
-import excecao.ProdutoNaoEncontradoException;
+import excecao.AutorNaoEncontradoException;
 
 public class PrincipalAutor
-{	public static void main (String[] args) throws ProdutoNaoEncontradoException 
+{	public static void main (String[] args) throws AutorNaoEncontradoException 
 	{	
 		String nome;
 		
@@ -65,7 +66,7 @@ public class PrincipalAutor
 					{	
 						umAutor = autorAppService.recuperaUmAutor(resposta);
 					}
-					catch(ProdutoNaoEncontradoException e)
+					catch(AutorNaoEncontradoException e)
 					{	System.out.println('\n' + e.getMessage());
 						break;
 					}
@@ -93,7 +94,7 @@ public class PrincipalAutor
 								System.out.println('\n' + 
 									"Alteração de nome efetuada com sucesso!");
 							}
-							catch(ProdutoNaoEncontradoException e)
+							catch(AutorNaoEncontradoException e)
 							{	System.out.println('\n' + e.getMessage());
 							}
 								
@@ -114,7 +115,7 @@ public class PrincipalAutor
 					{	umAutor = autorAppService.
 										recuperaUmAutor(resposta);
 					}
-					catch(ProdutoNaoEncontradoException e)
+					catch(AutorNaoEncontradoException e)
 					{	System.out.println('\n' + e.getMessage());
 						break;
 					}
@@ -132,7 +133,7 @@ public class PrincipalAutor
 							System.out.println('\n' + 
 								"Autor removido com sucesso!");
 						}
-						catch(ProdutoNaoEncontradoException e)
+						catch(AutorNaoEncontradoException e)
 						{	System.out.println('\n' + e.getMessage());
 						}
 					}
@@ -153,7 +154,7 @@ public class PrincipalAutor
 					{	umAutor = autorAppService.
 										recuperaUmAutorELivros(numero);
 					}
-					catch(ProdutoNaoEncontradoException e)
+					catch(AutorNaoEncontradoException e)
 					{	System.out.println('\n' + e.getMessage());
 						break;
 					}
@@ -188,7 +189,14 @@ public class PrincipalAutor
 								"  Nome = " + autor.getNome() +
 								"  Data Cadastro = " + autor.getDataCriacaoMasc());
 
-							List<Livro> livros = autorAppService.recuperaLivros(autor.getId());
+							List<Livro> livros = new ArrayList<Livro>();
+							
+							try {
+								livros = autorAppService.recuperaLivros(autor.getId());
+							} catch (AutorNaoEncontradoException e) {
+								System.out.println('\n' + e.getMessage());
+								break;
+							}
 							
 							for (Livro livro : livros)
 							{	System.out.println(	'\n' + 

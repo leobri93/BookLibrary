@@ -29,9 +29,7 @@ import service.AutorAppService;
 import service.LivroAppService;
 import util.DatabaseDateFormat;
 import util.Util;
-import excecao.DataDeLanceInvalidaException;
-import excecao.ProdutoNaoEncontradoException;
-import excecao.ValorDeLanceInvalidoException;
+import excecao.AutorNaoEncontradoException;
 
 import javax.swing.JSeparator;
 
@@ -161,7 +159,7 @@ public class DialogCadastrar extends JDialog {
 				{	
 					umAutor = autorAppService.recuperaUmAutor(Long.parseLong(idAutorTextField.getText()));
 				}
-				catch(ProdutoNaoEncontradoException e)
+				catch(AutorNaoEncontradoException e)
 				{	
 					System.out.println('\n' + e.getMessage());
 				}
@@ -176,9 +174,7 @@ public class DialogCadastrar extends JDialog {
 
 					System.out.println('\n' + "Livro adicionado com sucesso");						
 				}
-				catch(ProdutoNaoEncontradoException |
-					  DataDeLanceInvalidaException |
-					  ValorDeLanceInvalidoException e)
+				catch(Exception e)
 				{	
 					System.out.println(e.getMessage());
 				}

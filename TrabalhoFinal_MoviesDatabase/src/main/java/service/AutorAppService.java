@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import dao.AutorDAO;
 import excecao.InfraestruturaException;
 import excecao.ObjetoNaoEncontradoException;
-import excecao.ProdutoNaoEncontradoException;
+import excecao.AutorNaoEncontradoException;
 
 public class AutorAppService
 {	
@@ -28,19 +28,19 @@ public class AutorAppService
 
 	@Transactional
 	public void altera(Autor umAutor)
-		throws ProdutoNaoEncontradoException
+		throws AutorNaoEncontradoException
 	{	try
 		{	autorDAO.getPorIdComLock(umAutor.getId());
 			autorDAO.altera(umAutor);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
+		{	throw new AutorNaoEncontradoException("Autor não encontrado");
 		}
 	}
 
 	@Transactional
 	public void exclui(Autor umAutor) 
-		throws ProdutoNaoEncontradoException
+		throws AutorNaoEncontradoException
 	{	try
 		{	Autor autor = autorDAO.recuperaUmAutorELivros(umAutor.getId());
 
@@ -51,27 +51,27 @@ public class AutorAppService
 			autorDAO.exclui(autor);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
+		{	throw new AutorNaoEncontradoException("Autor não encontrado");
 		}
 	}
 
 	public Autor recuperaUmAutor(long numero) 
-		throws ProdutoNaoEncontradoException
+		throws AutorNaoEncontradoException
 	{	try
 		{	return autorDAO.getPorId(numero);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
+		{	throw new AutorNaoEncontradoException("Autor não encontrado");
 		}
 	}
 
 	public Autor recuperaUmAutorELivros(long numero) 
-		throws ProdutoNaoEncontradoException
+		throws AutorNaoEncontradoException
 	{	try
 		{	return autorDAO.recuperaUmAutorELivros(numero);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
+		{	throw new AutorNaoEncontradoException("Autor não encontrado");
 		}
 	}
 
@@ -80,12 +80,12 @@ public class AutorAppService
 	}
 	
 	public List<Livro> recuperaLivros(long numero) 
-			throws ProdutoNaoEncontradoException
+			throws AutorNaoEncontradoException
 		{	try
 			{	return autorDAO.recuperaLivros(numero);
 			} 
 			catch(ObjetoNaoEncontradoException e)
-			{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
+			{	throw new AutorNaoEncontradoException("Autor não encontrado");
 			}
 		}
 	

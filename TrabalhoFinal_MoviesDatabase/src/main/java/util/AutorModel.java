@@ -1,5 +1,4 @@
 package util;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +11,9 @@ import service.AutorAppService;
 public class AutorModel extends AbstractTableModel 
 {
 	private static final long serialVersionUID = 1L;
-	public static final int COLUNA_NUMERO = 0;
+	public static final int COLUNA_ID = 0;
 	public static final int COLUNA_NOME = 1;
-	public static final int COLUNA_DATA = 2;
+	public static final int COLUNA_DATA_NASCIMENTO = 2;
 	
 	
 	private static AutorAppService autorAppService = new AutorAppService();
@@ -37,9 +36,9 @@ public class AutorModel extends AbstractTableModel
     
 	public String getColumnName(int c)
 	{
-		if(c == COLUNA_NUMERO) return "id";
+		if(c == COLUNA_ID) return "id";
 		if(c == COLUNA_NOME) return "Nome";
-		if(c == COLUNA_DATA) return "Data";
+		if(c == COLUNA_DATA_NASCIMENTO) return "Data";
 		return null;
 	}
 	
@@ -51,7 +50,7 @@ public class AutorModel extends AbstractTableModel
 	@Override
 	public int getRowCount() {
 		if(qtd == null)
-			qtd = (int)autorAppService.recuperaQtd(fator.toUpperCase());
+			qtd = (int)autorAppService.recuperaNumeroDeRows(fator.toUpperCase());
 
 		return qtd;
 	}
@@ -82,7 +81,7 @@ public class AutorModel extends AbstractTableModel
 					System.out.println("Como estamos navegando para baixo e como a linha " + rowIndex + " não foi encontrada no cache (que foi apagado), vamos recuperar do banco 40 linhas com deslocamento de " + (rowIndex - 19));
 					
 					// A tabela não pode ter mais de 20 linhas
-					List<Autor> resultados = autorAppService.recuperaListaDeAutoresLimitado(fator.toUpperCase(), rowIndex - 19, 40);
+					List<Autor> resultados = autorAppService.buscaPaginada(fator.toUpperCase(), rowIndex - 19, 40);
 				
 					for (int j = 0; j < resultados.size(); j++) 
 					{	Autor autor = resultados.get(j);
@@ -105,7 +104,7 @@ public class AutorModel extends AbstractTableModel
 					System.out.println("Como estamos navegando para cima e como a linha " + rowIndex + " não foi encontrada no cache (que foi apagado), vamos recuperar do banco 40 linhas com deslocamento de " + inicio);
 					
 					List<Autor> resultados = autorAppService
-						.recuperaListaDeAutoresLimitado(fator.toUpperCase(), inicio, 40);
+						.buscaPaginada(fator.toUpperCase(), inicio, 40);
 					
 					System.out.println("resultados = " + resultados.size());
 					
@@ -130,7 +129,7 @@ public class AutorModel extends AbstractTableModel
 					System.out.println("Como estamos navegando para baixo e a linha " + rowIndex + " não foi encontrada, vamos recuperar do banco 40 linhas com um deslocamento de " + rowIndex);
 					
 					List<Autor> resultados = autorAppService
-						.recuperaListaDeAutoresLimitado(fator.toUpperCase(), rowIndex, 40);//ele quer pegar, a partir da linha rowIndex,
+						.buscaPaginada(fator.toUpperCase(), rowIndex, 40);//ele quer pegar, a partir da linha rowIndex,
 					                                                                 //40 linhas no banco para o cache.
 					for (int j = 0; j < resultados.size(); j++) 
 					{	Autor autor = resultados.get(j);
@@ -153,7 +152,7 @@ public class AutorModel extends AbstractTableModel
 									+ "40 linhas com inicio a partir de " + inicio);
 					
 					List<Autor> resultados = autorAppService
-						.recuperaListaDeAutoresLimitado(fator.toUpperCase(), inicio, 40);
+						.buscaPaginada(fator.toUpperCase(), inicio, 40);
 					
 					System.out.println("resultados = " + resultados.size());
 					
@@ -169,11 +168,11 @@ public class AutorModel extends AbstractTableModel
         
 		Autor autor = cache.get(rowIndex);
 
-		if(columnIndex == COLUNA_NUMERO)
+		if(columnIndex == COLUNA_ID)
 			return autor.getId();
 		else if (columnIndex == COLUNA_NOME)
 			return autor.getNome();
-		else if (columnIndex == COLUNA_DATA)
+		else if (columnIndex == COLUNA_DATA_NASCIMENTO)
 			return autor.getDataCriacaoMasc();
 		
 		else
@@ -185,9 +184,9 @@ public class AutorModel extends AbstractTableModel
 	public Class<?> getColumnClass(int c)
 	{
 		Class<?> classe = null;
-		if(c == COLUNA_NUMERO) classe = String.class;
+		if(c == COLUNA_ID) classe = String.class;
 		if(c == COLUNA_NOME) classe = String.class;
-		if(c == COLUNA_DATA) classe = String.class;
+		if(c == COLUNA_DATA_NASCIMENTO) classe = String.class;
 		return classe;
 	}
 	
@@ -203,7 +202,7 @@ public class AutorModel extends AbstractTableModel
 		Autor umAutor = cache.get(r);
 
 		if(c == COLUNA_NOME) umAutor.setNome((String)obj);
-		if(c == COLUNA_DATA) umAutor.setDataCriacao(Util.strToCalendar((String)obj));
+		if(c == COLUNA_DATA_NASCIMENTO) umAutor.setDataCriacao(Util.strToCalendar((String)obj));
 		
 
 		try 

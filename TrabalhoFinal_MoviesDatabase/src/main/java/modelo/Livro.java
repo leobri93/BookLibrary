@@ -42,9 +42,7 @@ import util.Util;
 
 @Entity
 @Table(name="LIVRO")
-@SequenceGenerator(name="SEQUENCIA01", 
-		           sequenceName="SEQ_LIVRO",
-		           allocationSize=1)
+@SequenceGenerator(name="SEQUENCIA01",sequenceName="SEQ_LIVRO",allocationSize=1)
 
 public class Livro
 {	
@@ -78,6 +76,8 @@ public class Livro
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQUENCIA01")
+	//@Id 
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
 
 	public Long getId()

@@ -89,12 +89,14 @@ public class AutorAppService
 			}
 		}
 	
-	public int recuperaQtd(String fator)
-	{	return autorDAO.recuperaNumeroDeRows(fator + "%");
+	public int recuperaNumeroDeRows(String fator)
+	{	
+		int qtd = autorDAO.recuperaNumeroDeRows(fator + '%');
+		return qtd;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Autor> recuperaListaDeAutoresLimitado(String fator, 
+	public List<Autor> buscaPaginada(String fator, 
             							 int inicio, 
             							 int linhasPorPagina)
 	{	try

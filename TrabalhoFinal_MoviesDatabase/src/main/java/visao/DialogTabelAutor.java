@@ -45,6 +45,18 @@ public class DialogTabelAutor extends JDialog {
 		contentPanel.add(panel);
 		panel.setLayout(null);
 		
+//		 table.setModel(new javax.swing.table.DefaultTableModel(
+//		            new Object [][] {
+//		                {null, null, null},
+//		                {null, null, null},
+//		                {null, null, null},
+//		                {null, null, null}
+//		            },
+//		            new String [] {
+//		                "Title 1", "Title 2", "Title 3"
+//		            }
+//		        ));
+		
 		JLabel lblPesquisaDeAutores = new JLabel("Pesquisa de autores");
 		lblPesquisaDeAutores.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblPesquisaDeAutores.setBounds(205, 11, 139, 14);
@@ -66,12 +78,13 @@ public class DialogTabelAutor extends JDialog {
 				String log = fatorTextField.getText();
 				AutorModel model = new AutorModel();
 				
-				int qtd = (int)autorAppService.recuperaQtd(log.toUpperCase());
-				System.out.println("resultados = " + qtd);
-				List<Autor> resultados = autorAppService
-						.recuperaListaDeAutoresLimitado(log.toUpperCase(), 1, 2);
-					
-				System.out.println("resultados = " + resultados.size());
+//				int qtd = (int)autorAppService.recuperaNumeroDeRows(log);
+//				System.out.println("resultados = " + qtd);
+//				List<Autor> resultados = autorAppService
+//						.buscaPaginada(log.toUpperCase(), 1, 2);
+//					
+//				System.out.println("resultados = " + resultados.size());
+				
 				model.setFatorDeBusca(log);
 				table.setModel(model);
 				scrollPane.setVisible(true);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ import util.Util;
 			),
 			@NamedQuery
 			(	name = "Autor.recuperaNumeroDeRows",
-				query = "select count(c) from Autor c where c.nome like  ?1	"	
+				query = "select count(c) from Autor c where c.nome like ?1	"	
 			),
 			/*	
 				@NamedQuery
@@ -55,9 +56,7 @@ import util.Util;
 				
 @Entity
 @Table(name="AUTOR")
-@SequenceGenerator(name="SEQUENCIA02", 
-				sequenceName="SEQ_AUTOR",
-		           allocationSize=1)
+@SequenceGenerator(name="SEQUENCIA02",sequenceName="SEQ_AUTOR",allocationSize=1)
 			
 		
 public class Autor
@@ -92,6 +91,8 @@ public class Autor
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQUENCIA02")
+	//@Id 
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
 	public Long getId()
 	{	return id;
@@ -133,7 +134,7 @@ public class Autor
 	// ********* Métodos para Associações *********
 
 
-	@OneToMany(mappedBy = "autor")//mapeia q há uma associação entre produto e lances.
+	@OneToMany(mappedBy = "autor", targetEntity = Livro.class,  cascade = CascadeType.ALL)//mapeia q há uma associação entre produto e lances.
 	@OrderBy
 	public List<Livro> getLivros(){
 		return livros;

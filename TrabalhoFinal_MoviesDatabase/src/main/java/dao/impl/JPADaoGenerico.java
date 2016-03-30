@@ -105,11 +105,14 @@ public class JPADaoGenerico<T, PK>
         try 
         {
             String nomeDaBusca = getNomeDaBuscaPeloMetodo(metodo);
+            System.out.println("metodo igual:"+ nomeDaBusca);
             Query namedQuery = em.createNamedQuery(nomeDaBusca);
     
             if (argumentos != null)
             {	for (int i = 0; i < argumentos.length; i++)
-                {	Object arg = argumentos[i];
+                {
+            	 System.out.println("argumento igual:"+ argumentos[i]);
+            	Object arg = argumentos[i];
                     namedQuery.setParameter(i+1, arg);  // Parâmetros de buscas são 1-based.
                 }
             }
@@ -186,10 +189,8 @@ public class JPADaoGenerico<T, PK>
     }
     
  @SuppressWarnings("unchecked")
-    public List<T> buscaPaginada(Method metodo, Object[] argumentos) //o argumento 1 vai ser o fator de busca o restante vao ser 
-    																//os limitantes.
-		{
-    	
+    public final List<T> buscaPaginada(Method metodo, Object[] argumentos)
+    {
     	try 
         {
             String nomeDaBusca = getNomeDaBuscaPeloMetodo(metodo);
@@ -197,21 +198,26 @@ public class JPADaoGenerico<T, PK>
     
             if (argumentos != null)
             {
-                
-                    Object arg = argumentos[0];
-                    namedQuery.setParameter(1, arg); // Parâmetros de buscas são 1-based.
+            	int inicio = Integer.parseInt(argumentos[0].toString());
+
+            	namedQuery.setFirstResult(inicio);
+
+            	int max = Integer.parseInt(argumentos[1].toString());
+
+            	namedQuery.setMaxResults(max);
+
+
+            	for (int i = 2; i < argumentos.length; i++) {
+                    Object arg = argumentos[i];
+                    namedQuery.setParameter(i + 1, arg); // Parametros de buscas são 1-based.
+                }
                 
             }
-            return (List<T>)namedQuery
-    				.setFirstResult((int)argumentos[1])
-					.setMaxResults((int)argumentos[2])
-					.getResultList();
+            return (List<T>)namedQuery.getResultList();
         }
         catch(RuntimeException e)
         {   throw new InfraestruturaException(e);
         }
-    	
-    	
 	}
 	//*/
     @SuppressWarnings("unchecked")

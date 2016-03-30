@@ -5,6 +5,9 @@ import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import modelo.Autor;
 import service.AutorAppService;
 
@@ -16,8 +19,17 @@ public class AutorModel extends AbstractTableModel
 	public static final int COLUNA_DATA_NASCIMENTO = 2;
 	
 	private final static int NUMERO_DE_LINHAS_POR_PAGINA = 5;
-	
-	private static AutorAppService autorAppService = new AutorAppService();
+    
+	private static AutorAppService autorAppService; 
+
+	static
+	{
+        @SuppressWarnings("resource")
+		ApplicationContext fabrica = new ClassPathXmlApplicationContext("beans-jpa.xml");
+
+        autorAppService = 
+			(AutorAppService)fabrica.getBean ("autorAppService");
+	}
 
     private Map<Integer, Autor> cache;
     private int rowIndexAnterior = 0;
@@ -39,7 +51,7 @@ public class AutorModel extends AbstractTableModel
 	{
 		if(c == COLUNA_ID) return "id";
 		if(c == COLUNA_NOME) return "Nome";
-		if(c == COLUNA_DATA_NASCIMENTO) return "Data";
+		if(c == COLUNA_DATA_NASCIMENTO) return "Data Nasc";
 		return null;
 	}
 	
@@ -59,7 +71,7 @@ public class AutorModel extends AbstractTableModel
 			
 			cache = new HashMap<Integer, Autor>(NUMERO_DE_LINHAS_POR_PAGINA * 4 / 75 /100 + 2);
 		}
-//>>>>>>> origin/master
+
 		return qtd;
 	}
 	
@@ -89,7 +101,7 @@ public class AutorModel extends AbstractTableModel
 					System.out.println("Como estamos navegando para baixo e como a linha " + rowIndex + " não foi encontrada no cache (que foi apagado), vamos recuperar do banco 40 linhas com deslocamento de " + (rowIndex - 19));
 					
 					// A tabela não pode ter mais de 20 linhas
-					List<Autor> resultados = autorAppService.buscaPaginada(fator.toUpperCase(), rowIndex - 19, 40);
+					List<Autor> resultados = autorAppService.buscaPaginada(rowIndex - 19, 40,fator.toUpperCase());
 				
 					for (int j = 0; j < resultados.size(); j++) 
 					{	Autor autor = resultados.get(j);
@@ -112,7 +124,7 @@ public class AutorModel extends AbstractTableModel
 					System.out.println("Como estamos navegando para cima e como a linha " + rowIndex + " não foi encontrada no cache (que foi apagado), vamos recuperar do banco 40 linhas com deslocamento de " + inicio);
 					
 					List<Autor> resultados = autorAppService
-						.buscaPaginada(fator.toUpperCase(), inicio, 40);
+						.buscaPaginada(inicio, 40,fator.toUpperCase());
 					
 					System.out.println("resultados = " + resultados.size());
 					
@@ -137,7 +149,7 @@ public class AutorModel extends AbstractTableModel
 					System.out.println("Como estamos navegando para baixo e a linha " + rowIndex + " não foi encontrada, vamos recuperar do banco 40 linhas com um deslocamento de " + rowIndex);
 					
 					List<Autor> resultados = autorAppService
-						.buscaPaginada(fator.toUpperCase(), rowIndex, 40);//ele quer pegar, a partir da linha rowIndex,
+						.buscaPaginada( rowIndex, 40, fator.toUpperCase());//ele quer pegar, a partir da linha rowIndex,
 					                                                                 //40 linhas no banco para o cache.
 					for (int j = 0; j < resultados.size(); j++) 
 					{	Autor autor = resultados.get(j);
@@ -160,7 +172,7 @@ public class AutorModel extends AbstractTableModel
 									+ "40 linhas com inicio a partir de " + inicio);
 					
 					List<Autor> resultados = autorAppService
-						.buscaPaginada(fator.toUpperCase(), inicio, 40);
+						.buscaPaginada(inicio, 40, fator.toUpperCase());
 					
 					System.out.println("resultados = " + resultados.size());
 					

@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -14,12 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import modelo.Autor;
-import service.AutorAppService;
 import util.AutorModel;
-import javax.swing.SwingConstants;
 
 public class DialogTabelAutor extends JDialog {
 
@@ -31,7 +28,6 @@ public class DialogTabelAutor extends JDialog {
 	private JTextField fatorTextField;
 	private JTable table;
 	private JScrollPane scrollPane;
-	private static AutorAppService autorAppService = new AutorAppService();
 	
 	public DialogTabelAutor(JFrame frame) {
 		super(frame);
@@ -41,33 +37,18 @@ public class DialogTabelAutor extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
+		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 434, 169);
 		contentPanel.add(panel);
 		panel.setLayout(null);
 		
-//<<<<<<< HEAD
-//		 table.setModel(new javax.swing.table.DefaultTableModel(
-//		            new Object [][] {
-//		                {null, null, null},
-//		                {null, null, null},
-//		                {null, null, null},
-//		                {null, null, null}
-//		            },
-//		            new String [] {
-//		                "Title 1", "Title 2", "Title 3"
-//		            }
-//		        ));
-		
-//		JLabel lblPesquisaDeAutores = new JLabel("Pesquisa de autores");
-//		lblPesquisaDeAutores.setFont(new Font("Tahoma", Font.BOLD, 13));
-//		lblPesquisaDeAutores.setBounds(205, 11, 139, 14);
-//=======
+
 		JLabel lblPesquisaDeAutores = new JLabel("Buscar Autor");
 		lblPesquisaDeAutores.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPesquisaDeAutores.setFont(new Font("Leelawadee UI", Font.BOLD, 13));
 		lblPesquisaDeAutores.setBounds(0, 11, 434, 14);
-//>>>>>>> origin/master
+
 		panel.add(lblPesquisaDeAutores);
 		
 		JLabel lblAutores = new JLabel("Autor:");
@@ -85,14 +66,7 @@ public class DialogTabelAutor extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				String log = fatorTextField.getText();
 				AutorModel model = new AutorModel();
-				
-//				int qtd = (int)autorAppService.recuperaNumeroDeRows(log);
-//				System.out.println("resultados = " + qtd);
-//				List<Autor> resultados = autorAppService
-//						.buscaPaginada(log.toUpperCase(), 1, 2);
-//					
-//				System.out.println("resultados = " + resultados.size());
-				
+	
 				model.setFatorDeBusca(log);
 				table.setModel(model);
 				scrollPane.setVisible(true);
@@ -101,9 +75,12 @@ public class DialogTabelAutor extends JDialog {
 		btnPesquisar.setBounds(172, 122, 89, 23);
 		panel.add(btnPesquisar);
 		
-		JScrollPane scrollPane = new JScrollPane();
+	    scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 214, 434, 247);
 		contentPanel.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
 		
 		JLabel lblResultado = new JLabel("Resultado");
 		lblResultado.setHorizontalAlignment(SwingConstants.CENTER);

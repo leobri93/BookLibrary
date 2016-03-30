@@ -38,7 +38,7 @@ import util.Util;
 			),
 			@NamedQuery
 			(	name = "Autor.buscaPaginada",
-				query = "select c from Autor c where c.nome like ?1	"	
+				query = "select c from Autor c where c.nome like ?3	"	
 			),
 			@NamedQuery
 			(	name = "Autor.recuperaNumeroDeRows",

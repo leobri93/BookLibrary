@@ -5,6 +5,7 @@ import java.util.Set;
 
 import modelo.Autor;
 import modelo.Livro;
+import anotacao.BuscaPaginada;
 import anotacao.RecuperaConjunto;
 import anotacao.RecuperaLista;
 import anotacao.RecuperaObjeto;
@@ -31,8 +32,8 @@ public interface AutorDAO extends DaoGenerico<Autor, Long>
 	@RecuperaConjunto
 	Set<Autor> recuperaConjuntoDeAutoresELivros();
 	
-	@RecuperaObjeto
-	List<Autor> buscaPaginada(String fator, int inicio, int linhasPorPagina);
+	@BuscaPaginada
+	List<Autor> buscaPaginada(int inicio, int linhasPorPagina, String fator);
 	
 	/* ****** Métodos não Genéricos ******* */
 

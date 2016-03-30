@@ -11,7 +11,9 @@ public class FabricaDeDao
 	@SuppressWarnings("unchecked")  
     public static <T> T getDao(String classeDoDaoComoString) 
         throws Exception 
-    {                                             // "dao.impl.ProdutoDAOImpl"
+    {        
+		System.out.println("classeDoDaoComoString = " + classeDoDaoComoString);
+		// "dao.impl.ProdutoDAOImpl"
 		Class<T> classeDoDao = (Class<T>)Class.forName(classeDoDaoComoString);
 		
 		return (T)Enhancer.create (classeDoDao, new InterceptadorDeDAO());

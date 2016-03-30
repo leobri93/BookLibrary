@@ -30,14 +30,14 @@ import util.Util;
 			(	name = "Livro.recuperaUltimoLivro",
 				query = "select l from Livro l where l.autor = ?1 order by l.id desc"
 			),
-	/*		@NamedQuery
-			(	name = "Livro.recuperaListaDeLivrosEAutores",
-				query = "select p from Livro p left outer join fetch p.autor order by p.id asc"
+			@NamedQuery
+			(	name = "Livro.buscaPaginada",
+				query = "select c from Livro c where c.nome like ?3	"	
 			),
 			@NamedQuery
-			(	name = "Livro.recuperaConjuntoDeProdutosELances",
-				query = "select p from Livro p left outer join fetch p.livros order by p.id asc"
-			)*/
+			(	name = "Livro.recuperaNumeroDeRows",
+				query = "select count(c) from Livro c where c.nome like ?1	"	
+			)
 		})
 
 @Entity

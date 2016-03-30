@@ -15,11 +15,11 @@ import excecao.AutorNaoEncontradoException;
 
 public class AutorAppService
 {	
-	private AutorDAO autorDAO = null;
+	private AutorDAO autorDAO;
 
-	@Autowired
-	public void setAutorDAO(AutorDAO produtoDAO)
-	{	this.autorDAO = produtoDAO;
+	
+	public void setAutorDAO(AutorDAO autorDAO)
+	{	this.autorDAO = autorDAO;
 	}
 	
 	public long inclui(Autor umProduto) 
@@ -91,21 +91,18 @@ public class AutorAppService
 	
 	public int recuperaNumeroDeRows(String fator)
 	{	
+		if(autorDAO==null){System.out.println("autorDAO = null");}
 		int qtd = autorDAO.recuperaNumeroDeRows(fator + '%');
 		return qtd;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<Autor> buscaPaginada(String fator, 
-            							 int inicio, 
-            							 int linhasPorPagina)
+	public List<Autor> buscaPaginada(int inicio, 
+            							 int linhasPorPagina,String fator)
 	{	try
 		{	
-			// order by c.nome asc
-		
-			return autorDAO.buscaPaginada(fator + "%",inicio,linhasPorPagina);
-
 			
+			return autorDAO.buscaPaginada(inicio,linhasPorPagina, fator + "%");
+
 		} 
 		catch(RuntimeException e)
 		{	throw new InfraestruturaException(e);

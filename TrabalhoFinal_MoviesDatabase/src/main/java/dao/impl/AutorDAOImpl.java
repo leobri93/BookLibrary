@@ -9,4 +9,5 @@ public abstract class AutorDAOImpl
     public AutorDAOImpl()
     { 	super(Autor.class); 
     }
+    
 }

@@ -62,7 +62,7 @@ public class InterceptadorDeDAO implements MethodInterceptor
         	return daoGenerico.busca(metodo, args);
         }
         else if(metodo.isAnnotationPresent(BuscaPaginada.class))
-        {	// O método busca() retorna um Objeto (Entidade)
+        {	
         	return daoGenerico.buscaPaginada(metodo, args);
         }
         else 

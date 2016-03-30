@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
@@ -22,6 +23,7 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -31,10 +33,8 @@ import util.DatabaseDateFormat;
 import util.Util;
 import excecao.AutorNaoEncontradoException;
 
-import javax.swing.JSeparator;
 
-
-public class DialogCadastrar extends JDialog {
+public class DialogCadastrarLivro extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField nomeTextField;
@@ -53,6 +53,10 @@ public class DialogCadastrar extends JDialog {
 	private Autor umAutor;
 	private Livro umLivro;
 	
+	// -----------------------Log4j--------------------------------------- //
+	final static Logger logger = Logger.getLogger(DialogCadastrarLivro.class);
+	// -----------------------Log4j--------------------------------------- //
+	
 	// ----------------------- Fabrica de DAOs --------------------------- //
 	ApplicationContext fabrica = new ClassPathXmlApplicationContext("beans-jpa.xml");
 
@@ -63,7 +67,7 @@ public class DialogCadastrar extends JDialog {
 	private final JSeparator separator = new JSeparator();
 	// ----------------------- Fim da fabrica de DAOs -------------------- //
 	
-	public DialogCadastrar(JFrame frame) {
+	public DialogCadastrarLivro(JFrame frame) {
 		
 		super(frame);
 		
@@ -158,10 +162,12 @@ public class DialogCadastrar extends JDialog {
 				try
 				{	
 					umAutor = autorAppService.recuperaUmAutor(Long.parseLong(idAutorTextField.getText()));
+				
 				}
 				catch(AutorNaoEncontradoException e)
 				{	
-					System.out.println('\n' + e.getMessage());
+					logger.error("\n Desculpe, não conseguimos encontrar este autor no banco, talvez não seja um ID cadastrado", e);
+					
 				}
 				// -------------------- Fim da criacao do autor ------------------------------------ //
 				
@@ -171,12 +177,13 @@ public class DialogCadastrar extends JDialog {
 				
 				try
 				{	livroAppService.inclui(umLivro);	
-
-					System.out.println('\n' + "Livro adicionado com sucesso");						
+					
+					logger.info('\n' + "Livro adicionado com sucesso");					
 				}
 				catch(Exception e)
 				{	
-					System.out.println(e.getMessage());
+					logger.error("\n Desculpe, não conseguimos cadastrar o seu livro", e);
+					
 				}
 			}
 		});

@@ -46,7 +46,7 @@ public class DialogTabelAutor extends JDialog {
 		contentPanel.add(panel);
 		panel.setLayout(null);
 		
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //		 table.setModel(new javax.swing.table.DefaultTableModel(
 //		            new Object [][] {
 //		                {null, null, null},
@@ -59,15 +59,15 @@ public class DialogTabelAutor extends JDialog {
 //		            }
 //		        ));
 		
-		JLabel lblPesquisaDeAutores = new JLabel("Pesquisa de autores");
-		lblPesquisaDeAutores.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblPesquisaDeAutores.setBounds(205, 11, 139, 14);
-=======
+//		JLabel lblPesquisaDeAutores = new JLabel("Pesquisa de autores");
+//		lblPesquisaDeAutores.setFont(new Font("Tahoma", Font.BOLD, 13));
+//		lblPesquisaDeAutores.setBounds(205, 11, 139, 14);
+//=======
 		JLabel lblPesquisaDeAutores = new JLabel("Buscar Autor");
 		lblPesquisaDeAutores.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPesquisaDeAutores.setFont(new Font("Leelawadee UI", Font.BOLD, 13));
 		lblPesquisaDeAutores.setBounds(0, 11, 434, 14);
->>>>>>> origin/master
+//>>>>>>> origin/master
 		panel.add(lblPesquisaDeAutores);
 		
 		JLabel lblAutores = new JLabel("Autor:");

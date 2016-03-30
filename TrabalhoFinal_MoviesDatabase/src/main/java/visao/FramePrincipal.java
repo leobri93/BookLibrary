@@ -37,7 +37,7 @@ public class FramePrincipal extends JFrame {
 		JMenuItem mntmLivroCadastrar = new JMenuItem("Livro");
 		mntmLivroCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DialogCadastrar dialog = new DialogCadastrar(frame);
+				DialogCadastrarLivro dialog = new DialogCadastrarLivro(frame);
 				dialog.setVisible(true);
 			}
 		});

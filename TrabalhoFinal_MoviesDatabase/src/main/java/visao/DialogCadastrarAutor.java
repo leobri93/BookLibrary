@@ -22,6 +22,7 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -42,6 +43,11 @@ public class DialogCadastrarAutor extends JDialog {
 	private Calendar dataNascimento;
 
 	private Autor umAutor;
+	
+	// -----------------------Log4j--------------------------------------- //
+		final static Logger logger = Logger.getLogger(DialogCadastrarAutor.class);
+	// -----------------------Log4j--------------------------------------- //
+		
 
 	// ----------------------- Fabrica de DAOs --------------------------- //
 	ApplicationContext fabrica = new ClassPathXmlApplicationContext(
@@ -115,12 +121,12 @@ public class DialogCadastrarAutor extends JDialog {
 				try 
 				{
 					autorAppService.inclui(umAutor);
-
-					System.out.println('\n' + "Livro adicionado com sucesso");						
+					
+					logger.info('\n' + "Autor adicionado com sucesso");					
 				}
 				catch(Exception  b)
 				{	
-					System.out.println(b.getMessage());
+					logger.error("\n Desculpe, não conseguimos cadastrar o autor", b);
 				}
 				
 			}

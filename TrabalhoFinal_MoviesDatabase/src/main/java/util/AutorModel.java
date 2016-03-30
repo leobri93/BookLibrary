@@ -51,15 +51,15 @@ public class AutorModel extends AbstractTableModel
 	@Override
 	public int getRowCount() {
 		if(qtd == null)
-<<<<<<< HEAD
+
 			qtd = (int)autorAppService.recuperaNumeroDeRows(fator.toUpperCase());
 
-=======
+
 		{
-			qtd = (int)autorAppService.recuperaQtd(fator.toUpperCase());
+			
 			cache = new HashMap<Integer, Autor>(NUMERO_DE_LINHAS_POR_PAGINA * 4 / 75 /100 + 2);
 		}
->>>>>>> origin/master
+//>>>>>>> origin/master
 		return qtd;
 	}
 	

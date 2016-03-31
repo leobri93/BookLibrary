@@ -7,6 +7,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import excecao.NomeDeLivroJaCadastrado;
+import excecao.ViolacaoDeConstraintDesconhecidaException;
+
 //Para utilizar este aspecto é preciso:
 // 1. Sempre que for definida uma nova constraint no CREATE TABLE será necessário acrescentar 
 //    esta nova constraint nesta classe.
@@ -28,7 +31,7 @@ public class AspectoAround
 		{	
 			Throwable t = e;
 			
-			if( t instanceof Exception)
+			if( t instanceof DataIntegrityViolationException)
 			{	
 				t = t.getCause();
 				while (t != null && !(t instanceof SQLException))
@@ -38,11 +41,11 @@ public class AspectoAround
 				
 				String msg = (t.getMessage() != null) ? t.getMessage() : "";
 				
-				if(msg.indexOf("PESSOA_FISICA_CPF_UN") != -1) //criar talvez uma exception para nome de livro e autor unique
-				{	throw new Exception();						//fazer as alterações neceárias no banco.
+				if(msg.indexOf("LIVRO_NOME_UNIQUE") != -1)
+				{	throw new NomeDeLivroJaCadastrado();
 				}
 				else
-				{	throw new Exception
+				{	throw new ViolacaoDeConstraintDesconhecidaException
 						("A operação não foi realizada em função da violação de uma restrição no banco da dados.");
 				}
 			}
@@ -52,3 +55,4 @@ public class AspectoAround
 		}
 	}
 }
+

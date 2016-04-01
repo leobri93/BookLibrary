@@ -72,7 +72,7 @@ public class DialogTabelAutor extends JDialog {
 				scrollPane.setVisible(true);
 			}
 		});
-		btnPesquisar.setBounds(172, 122, 89, 23);
+		btnPesquisar.setBounds(168, 122, 110, 23);
 		panel.add(btnPesquisar);
 		
 	    scrollPane = new JScrollPane();

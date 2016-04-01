@@ -2,7 +2,7 @@ package excecao;
 import anotacao.ExcecaoDeAplicacao;
 
 @ExcecaoDeAplicacao
-public class LivroNaoEncontradoException extends Exception
+public class LivroNaoEncontradoException extends AplicacaoException 
 {
 	private final static long serialVersionUID = 1;
 	

@@ -2,16 +2,15 @@ package service;
 
 import java.util.List;
 
-import modelo.Autor;
 import modelo.Livro;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import dao.AutorDAO;
 import dao.LivroDAO;
-import excecao.AutorNaoEncontradoException;
 import excecao.InfraestruturaException;
 import excecao.LivroNaoEncontradoException;
+import excecao.NomeDeLivroJaCadastrado;
 import excecao.ObjetoNaoEncontradoException;
 
 public class LivroAppService
@@ -30,9 +29,15 @@ public class LivroAppService
 	@Transactional
 	public long inclui(Livro umLivro)  
 	{
-
-		Livro livro = livroDAO.inclui(umLivro);
-
+		
+		Livro livro = new Livro();
+		try {
+			livro = livroDAO.inclui(umLivro);
+		} catch (NomeDeLivroJaCadastrado e) {
+			
+			e.printStackTrace();
+		}
+		
 		return livro.getId();
 	}	
 
@@ -44,7 +49,7 @@ public class LivroAppService
 			livroDAO.exclui(umLivro);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new LivroNaoEncontradoException("Lance não encontrado.");
+		{	throw new LivroNaoEncontradoException("Livro não encontrado.");
 		}
 	}
 
@@ -54,7 +59,7 @@ public class LivroAppService
 		{	return livroDAO.getPorId(numero);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new LivroNaoEncontradoException("Lance não encontrado");
+		{	throw new LivroNaoEncontradoException("Livro não encontrado");
 		}
 	}
 
@@ -70,7 +75,7 @@ public class LivroAppService
 			livroDAO.altera(umLivro);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new LivroNaoEncontradoException("Autor não encontrado");
+		{	throw new LivroNaoEncontradoException("Livro não encontrado");
 		}
 	}
 	
@@ -91,7 +96,7 @@ public class LivroAppService
 	
 	public int recuperaNumeroDeRows(String fator)
 	{	
-		if(livroDAO==null){System.out.println("autorDAO = null");}
+		
 		int qtd = livroDAO.recuperaNumeroDeRows(fator + '%');
 		return qtd;
 	}

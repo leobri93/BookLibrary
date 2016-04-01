@@ -123,8 +123,8 @@ public class Livro
 	{	this.nome = nome;
 	}
 	
-	public void setSinopse(String descricao)
-	{	this.sinopse = descricao;
+	public void setSinopse(String sinopse)
+	{	this.sinopse = sinopse;
 	}
 	
 	public void setDataCadastro(Calendar dataCadastro)

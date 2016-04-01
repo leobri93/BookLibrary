@@ -1,10 +1,10 @@
 package aspecto;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import excecao.NomeDeLivroJaCadastrado;
@@ -19,10 +19,16 @@ import excecao.ViolacaoDeConstraintDesconhecidaException;
 @Aspect
 public class AspectoAround 
 {
-	@Pointcut("call(* servico.*.*(..))")
-	public void traduzExcecaoAround() {}
+	
+	
+	// -----------------------Log4j--------------------------------------- //
+		final static Logger logger = Logger.getLogger(AspectoAround.class);
+	// -----------------------Log4j--------------------------------------- //
 
-	@Around("traduzExcecaoAround()")
+
+	
+	
+	@Around("call(* service.*.*(..))")
 	public Object traduzExcecaoAround(ProceedingJoinPoint joinPoint) throws Throwable 
 	{	try
 		{	return joinPoint.proceed();
@@ -42,11 +48,18 @@ public class AspectoAround
 				String msg = (t.getMessage() != null) ? t.getMessage() : "";
 				
 				if(msg.indexOf("LIVRO_NOME_UNIQUE") != -1)
-				{	throw new NomeDeLivroJaCadastrado();
+				{	
+					
+					throw new NomeDeLivroJaCadastrado("O nome do livro já consta no banco.");
 				}
 				else
-				{	throw new ViolacaoDeConstraintDesconhecidaException
+				{
+					
+					throw new ViolacaoDeConstraintDesconhecidaException
 						("A operação não foi realizada em função da violação de uma restrição no banco da dados.");
+					
+					
+					
 				}
 			}
 			else

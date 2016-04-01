@@ -23,7 +23,6 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
-import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -32,6 +31,7 @@ import service.LivroAppService;
 import util.DatabaseDateFormat;
 import util.Util;
 import excecao.AutorNaoEncontradoException;
+import excecao.NomeDeLivroJaCadastrado;
 
 
 public class DialogCadastrarLivro extends JDialog {
@@ -43,6 +43,7 @@ public class DialogCadastrarLivro extends JDialog {
 	private JTextField sinopseTextField;
 	private JTextField idAutorTextField;
 	private JTextField numeroExemplaresTextField;
+	private JLabel lblLivroCadastradoCom;
 	
 	// Informações de livro
 	private String sinopse;
@@ -53,9 +54,7 @@ public class DialogCadastrarLivro extends JDialog {
 	private Autor umAutor;
 	private Livro umLivro;
 	
-	// -----------------------Log4j--------------------------------------- //
-	final static Logger logger = Logger.getLogger(DialogCadastrarLivro.class);
-	// -----------------------Log4j--------------------------------------- //
+	
 	
 	// ----------------------- Fabrica de DAOs --------------------------- //
 	ApplicationContext fabrica = new ClassPathXmlApplicationContext("beans-jpa.xml");
@@ -166,7 +165,7 @@ public class DialogCadastrarLivro extends JDialog {
 				}
 				catch(AutorNaoEncontradoException e)
 				{	
-					logger.error("\n Desculpe, não conseguimos encontrar este autor no banco, talvez não seja um ID cadastrado", e);
+					System.out.println(e.getMessage());
 					
 				}
 				// -------------------- Fim da criacao do autor ------------------------------------ //
@@ -176,13 +175,13 @@ public class DialogCadastrarLivro extends JDialog {
 				umLivro = new Livro(nome, sinopse, numeroExemplares, dataCriacao, umAutor);
 				
 				try
-				{	livroAppService.inclui(umLivro);	
-					
-					logger.info('\n' + "Livro adicionado com sucesso");					
+				{	livroAppService.inclui(umLivro);
+					lblLivroCadastradoCom.setVisible(true);
+										
 				}
-				catch(Exception e)
+				catch(NomeDeLivroJaCadastrado e)
 				{	
-					logger.error("\n Desculpe, não conseguimos cadastrar o seu livro", e);
+					System.out.println(e.getMessage());
 					
 				}
 			}
@@ -198,6 +197,7 @@ public class DialogCadastrarLivro extends JDialog {
 				sinopseTextField         .setText("");
 				idAutorTextField         .setText("");
 				numeroExemplaresTextField.setText("");
+				lblLivroCadastradoCom.setVisible(false);
 			}
 		});
 		btnLimpar.setBounds(239, 245, 89, 23);
@@ -205,7 +205,7 @@ public class DialogCadastrarLivro extends JDialog {
 		
 		// ------------ Fim do Cadastro ---------------- //
 		
-		separator.setBounds(0, 308, 434, 31);
+		separator.setBounds(0, 317, 434, 31);
 		panel.add(separator);
 		
 		// ------------ Busca de Autor ----------------- //
@@ -225,6 +225,13 @@ public class DialogCadastrarLivro extends JDialog {
 			}
 		});
 		panel.add(btnBuscarAutor);
+		
+		lblLivroCadastradoCom = new JLabel("Livro cadastrado com sucesso!");
+		lblLivroCadastradoCom.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLivroCadastradoCom.setFont(new Font("Leelawadee UI", Font.ITALIC, 13));
+		lblLivroCadastradoCom.setBounds(0, 283, 434, 14);
+		panel.add(lblLivroCadastradoCom);
+		lblLivroCadastradoCom.setVisible(false);
 		// ----------- Fim da busca de autor ---------- //
 	}
 }

@@ -38,5 +38,5 @@ public interface AutorDAO extends DaoGenerico<Autor, Long>
 	/* ****** Métodos não Genéricos ******* */
 
 	// Um método definido aqui, que não seja anotado, deverá ser
-	// implementado como final em ProdutoDAOImpl.
+	// implementado como final em AutorDAOImpl.
 }

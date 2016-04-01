@@ -37,17 +37,15 @@ public class DialogCadastrarAutor extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField nomeTextField;
+	private JLabel lblAtenoCampoNome;
 
 	// Informações do autor
 	private String nome;
 	private Calendar dataNascimento;
-
+	private JLabel lblAutorCadastrado;
 	private Autor umAutor;
 	
-	// -----------------------Log4j--------------------------------------- //
-		final static Logger logger = Logger.getLogger(DialogCadastrarAutor.class);
-	// -----------------------Log4j--------------------------------------- //
-		
+	
 
 	// ----------------------- Fabrica de DAOs --------------------------- //
 	ApplicationContext fabrica = new ClassPathXmlApplicationContext(
@@ -60,7 +58,7 @@ public class DialogCadastrarAutor extends JDialog {
 
 	public DialogCadastrarAutor(JFrame frame) {
 		super(frame);
-
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(10, 10, 450, 500);
 		getContentPane().setLayout(null);
@@ -95,11 +93,11 @@ public class DialogCadastrarAutor extends JDialog {
 		springLayout.putConstraint(SpringLayout.SOUTH,
 				datePicker.getJFormattedTextField(), 0, SpringLayout.SOUTH,
 				datePicker);
-		datePicker.setBounds(88, 123, 165, 36);
+		datePicker.setBounds(79, 139, 165, 36);
 		panel.add(datePicker);
 
 		JLabel lblNascimento = new JLabel("Nascimento:");
-		lblNascimento.setBounds(10, 125, 79, 14);
+		lblNascimento.setBounds(10, 143, 79, 14);
 		panel.add(lblNascimento);
 
 		JButton btnSalvar = new JButton("Salvar");
@@ -119,14 +117,21 @@ public class DialogCadastrarAutor extends JDialog {
 				umAutor = new Autor(nome, dataNascimento);
 
 				try 
-				{
-					autorAppService.inclui(umAutor);
+				{	
 					
-					logger.info('\n' + "Autor adicionado com sucesso");					
+					
+					if (!nome.isEmpty()) {
+						autorAppService.inclui(umAutor);
+						lblAutorCadastrado.setVisible(true);
+						lblAtenoCampoNome.setVisible(false);
+					}else{
+						
+						lblAtenoCampoNome.setVisible(true);
+					}					
 				}
 				catch(Exception  b)
 				{	
-					logger.error("\n Desculpe, não conseguimos cadastrar o autor", b);
+					System.out.println(b.getMessage());
 				}
 				
 			}
@@ -138,8 +143,23 @@ public class DialogCadastrarAutor extends JDialog {
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				nomeTextField.setText("");
+				lblAutorCadastrado.setVisible(false);
 			}
 		});
 		panel.add(btnLimpar);
+		
+		lblAutorCadastrado = new JLabel("Autor cadastrado!");
+		lblAutorCadastrado.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAutorCadastrado.setFont(new Font("Leelawadee UI", Font.ITALIC, 13));
+		lblAutorCadastrado.setBounds(0, 283, 424, 14);
+		panel.add(lblAutorCadastrado);
+		lblAutorCadastrado.setVisible(false);
+		
+		lblAtenoCampoNome = new JLabel("Aten\u00E7\u00E3o: Campo nome n\u00E3o preenchido");
+		lblAtenoCampoNome.setFont(new Font("Leelawadee UI", Font.ITALIC, 13));
+		lblAtenoCampoNome.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAtenoCampoNome.setBounds(0, 110, 434, 14);
+		panel.add(lblAtenoCampoNome);
+		lblAtenoCampoNome.setVisible(false);
 	}
 }

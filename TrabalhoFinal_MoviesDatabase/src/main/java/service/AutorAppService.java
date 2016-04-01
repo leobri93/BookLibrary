@@ -22,8 +22,9 @@ public class AutorAppService
 	{	this.autorDAO = autorDAO;
 	}
 	
-	public long inclui(Autor umProduto) 
-	{	return autorDAO.inclui(umProduto).getId();
+	@Transactional
+	public long inclui(Autor umAutor) 
+	{	return autorDAO.inclui(umAutor).getId();
 	}
 
 	@Transactional
@@ -43,10 +44,6 @@ public class AutorAppService
 		throws AutorNaoEncontradoException
 	{	try
 		{	Autor autor = autorDAO.recuperaUmAutorELivros(umAutor.getId());
-
-//			if(produto.getLances().size() > 0)
-//			{	throw new ProdutoNaoEncontradoException("Este produto possui lances e não pode ser removido");
-//			}
 
 			autorDAO.exclui(autor);
 		} 
@@ -91,7 +88,7 @@ public class AutorAppService
 	
 	public int recuperaNumeroDeRows(String fator)
 	{	
-		if(autorDAO==null){System.out.println("autorDAO = null");}
+		
 		int qtd = autorDAO.recuperaNumeroDeRows(fator + '%');
 		return qtd;
 	}

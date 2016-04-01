@@ -44,14 +44,6 @@ import util.Util;
 			(	name = "Autor.recuperaNumeroDeRows",
 				query = "select count(c) from Autor c where c.nome like ?1	"	
 			),
-			/*	
-				@NamedQuery
-			(	name = "Autor.recuperaUmAutorComLivro",
-				query = "select l from Livro l left outer join fetch l.autor where Autor.id = ?1"
-			)//retorna todos os lances com ou sem produtos(o q nao faz muito sentido, pq todos os lances sao relacionados a um produto).
-		})
-*/
-/* ==>  Falta acrescentar a busca Lance.recuperaUmLanceComProduto */
 		})
 				
 @Entity
